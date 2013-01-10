@@ -23,11 +23,12 @@ SOURCES = Camera.cpp Cie1931.cpp Cie1964.cpp Compound.cpp \
   UserInterface.cpp
 SRC = $(addprefix src/, $(SOURCES))
 OBJS = $(addsuffix .o, $(basename $(SRC)))
+LIBS = -lboost_thread -lboost_system -lstdc++ -lm
 
 all: release
 
 release:
-	$(CC) $(CFLAGS) $(SRC) -o luculentus -pthread `pkg-config --cflags gtkmm-3.0` `pkg-config --libs gtkmm-3.0` -lboost_thread -lboost_system -lstdc++
+	$(CC) $(CFLAGS) $(SRC) -o luculentus -pthread `pkg-config --cflags gtkmm-3.0` `pkg-config --libs gtkmm-3.0` $(LIBS)
 
 clean:
 	/bin/rm -f $(OBJS) luculentus
