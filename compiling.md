@@ -43,7 +43,10 @@ environment variable that will be used to find the correct directories
 automatically.
 
 On Unix-like systems, simply run
-    make
+
+    $ make
+    
 and Luculentus should be compiled. If `g++` is your default compiler,
 you can compile with `clang++` using
-    make CC=clang++
+
+    $ make CC=clang++
