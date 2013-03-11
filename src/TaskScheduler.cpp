@@ -43,7 +43,7 @@ TaskScheduler::TaskScheduler(const int numberOfThreads, const int width,
   for (int i = 0; i < numberOfTraceUnits; i++)
   {
     traceUnits[i] = new TraceUnit(scene, randomSeed, width, height);
-    // Pick a differen random seed for the next trace unit
+    // Pick a different random seed for the next trace unit
     randomSeed = randomSeed ^ traceUnits[i]->monteCarloUnit.randomEngine();
   }
 
