@@ -37,7 +37,7 @@ int main(int argc, char** argv)
   // Tell the tracer what the UI is, so it can display things
   raytracer.SetUserInterface(&ui);
 
-  // Begin renderin with all threads
+  // Begin rendering with all threads
   raytracer.StartRendering();
 
   // Run the UI event loop, it returns when the window is closed
