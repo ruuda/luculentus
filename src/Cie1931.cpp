@@ -23,12 +23,11 @@ using namespace Luculentus;
 void Cie1931::GetTristimulus(float wavelength, float& cieX, float& cieY,
                              float& cieZ)
 {
-  float indexf	 = (wavelength - 380.0f) / 5.0f;
-  short  index	 = static_cast<short>(std::floor(indexf));
+  float indexf    = (wavelength - 380.0f) / 5.0f;
+  short index     = static_cast<short>(std::floor(indexf));
   float remainder = indexf - index;
 
-  // If invisible
-  if (index < -1 || index > 80)
+  if (index < -1 || index > 80) // Wavelength is not in visible spectrum
   {
     cieX = 0.0f;
     cieY = 0.0f;
