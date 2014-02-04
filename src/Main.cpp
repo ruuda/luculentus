@@ -43,7 +43,7 @@ int main(int argc, char** argv)
   // Run the UI event loop, it returns when the window is closed
   ui.Run();
 
-  delete blackBuffer;
+  delete [] blackBuffer;
 
   // And when the UI is closed, stop rendering
   raytracer.StopRendering();
