@@ -26,7 +26,7 @@ Luculentus uses gtkmm for its user interface. gtkmm is a C++ wrapper for
 the GTK+ toolkit. On Unix-like platforms, you probably have it installed
 already, or you can get it from your favourite package repositories. For
 Windows, there is an
-[excellent installer](https://live.gnome.org/gtkmm/MSWindows) available.
+[excellent installer](https://wiki.gnome.org/Projects/gtkmm/MSWindows) available.
 Both the 32-bit and 64-bit versions are available. Please note that the
 provided Visual Studio solution is only configured for 64-bit builds.
 
