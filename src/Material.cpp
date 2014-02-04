@@ -86,7 +86,7 @@ Ray DiffuseColouredMaterial::GetNewRay(const Ray incomingRay,
 
 Ray PerfectMirrorMaterial::GetNewRay(const Ray incomingRay,
                                      const Intersection intersection,
-                                     MonteCarloUnit& monteCarloUnit) const
+                                     MonteCarloUnit&) const
 {
   // Generate a ray in the reflected direction
   Ray newRay;
@@ -193,7 +193,7 @@ Ray BrushedMetalMaterial::GetNewRay(const Ray incomingRay,
 
 Ray RefractiveMaterial::GetNewRay(const Ray incomingRay,
                                   const Intersection intersection,
-                                  MonteCarloUnit& monteCarloUnit) const
+                                  MonteCarloUnit&) const
 {
   // Generate a ray in the refracted direction
   Ray newRay;

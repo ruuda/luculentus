@@ -123,7 +123,7 @@ void Raytracer::ExecuteTask(const Task task)
   }
 }
 
-void Raytracer::ExecuteSleepTask(const Task task)
+void Raytracer::ExecuteSleepTask(const Task)
 {
   // Sleep 100 ms, then the task is done
   boost::this_thread::sleep(boost::posix_time::milliseconds(100));
@@ -170,7 +170,7 @@ void Raytracer::ExecuteGatherTask(Task task)
   }
 }
 
-void Raytracer::ExecuteTonemapTask(const Task task)
+void Raytracer::ExecuteTonemapTask(const Task)
 {
   // Delegate tonemapping to the tonemap unit
   taskScheduler.tonemapUnit->Tonemap(*taskScheduler.gatherUnit);
@@ -184,13 +184,13 @@ void Raytracer::ExecuteTonemapTask(const Task task)
 
 void Raytracer::BuildScene()
 {
-  Material* grey = new DiffuseGreyMaterial(0.8f);
+  Material* grey  = new DiffuseGreyMaterial(0.8f);
   Material* red   = new DiffuseColouredMaterial(0.9f, 660.0f, 60.0f);
   Material* green = new DiffuseColouredMaterial(0.9f, 550.0f, 40.0f);
   Material* blue  = new DiffuseColouredMaterial(0.5f, 470.0f, 25.0f);
   Material* glossLow  = new GlossyMirrorMaterial(0.1f);
   RefractiveMaterial* glass = new Sf10GlassMaterial();
-  SoapBubbleMaterial* soap = new SoapBubbleMaterial();
+  SoapBubbleMaterial* soap  = new SoapBubbleMaterial();
 
   EmissiveMaterial* sunEmissive  = new BlackBodyMaterial(6504.0f, 1.0f);
   EmissiveMaterial* sky1Emissive = new BlackBodyMaterial(7600.0f, 0.6f);

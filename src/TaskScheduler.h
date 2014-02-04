@@ -75,11 +75,11 @@ namespace Luculentus
 
       /// The number of TraceUnits to use
       /// (not all of them have to be active simultaneously).
-      int numberOfTraceUnits;
+      size_t numberOfTraceUnits;
 
       /// The number of PlotUnits to use
       /// (not all of them have to be active simultaneously).
-      int numberOfPlotUnits;
+      size_t numberOfPlotUnits;
 
       /// An array of all TraceUnits in the tracer.
       TraceUnit**  traceUnits;

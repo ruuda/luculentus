@@ -40,7 +40,7 @@ TaskScheduler::TaskScheduler(const int numberOfThreads, const int width,
 
   // Build all the trace units, with a different random seed for all units
   unsigned long randomSeed = static_cast<unsigned long>(std::time(nullptr));
-  for (int i = 0; i < numberOfTraceUnits; i++)
+  for (size_t i = 0; i < numberOfTraceUnits; i++)
   {
     traceUnits[i] = new TraceUnit(scene, randomSeed, width, height);
     // Pick a different random seed for the next trace unit
@@ -48,7 +48,7 @@ TaskScheduler::TaskScheduler(const int numberOfThreads, const int width,
   }
 
   // Then build the plot units
-  for (int i = 0; i < numberOfPlotUnits; i++)
+  for (size_t i = 0; i < numberOfPlotUnits; i++)
   {
     plotUnits[i] = new PlotUnit(width, height);
   }
@@ -60,8 +60,8 @@ TaskScheduler::TaskScheduler(const int numberOfThreads, const int width,
   tonemapUnit = new TonemapUnit(width, height);
 
   // Everything is available at this point
-  for (int i = 0; i < numberOfTraceUnits; i++) availableTraceUnits.push(i);
-  for (int i = 0; i < numberOfPlotUnits; i++) availablePlotUnits.push(i);
+  for (size_t i = 0; i < numberOfTraceUnits; i++) availableTraceUnits.push(i);
+  for (size_t i = 0; i < numberOfPlotUnits; i++) availablePlotUnits.push(i);
   gatherUnitAvailable = true;
   tonemapUnitAvailable = true;
 
@@ -74,8 +74,8 @@ TaskScheduler::TaskScheduler(const int numberOfThreads, const int width,
 TaskScheduler::~TaskScheduler()
 {
   // Delete all trace units and plot units
-  for (int i = 0; i < numberOfTraceUnits; i++) delete traceUnits[i];
-  for (int i = 0; i < numberOfPlotUnits; i++) delete plotUnits[i];
+  for (size_t i = 0; i < numberOfTraceUnits; i++) delete traceUnits[i];
+  for (size_t i = 0; i < numberOfPlotUnits; i++) delete plotUnits[i];
   delete [] traceUnits;
   delete [] plotUnits;
 
@@ -171,11 +171,11 @@ Task TaskScheduler::CreatePlotTask()
   availablePlotUnits.pop();
 
   // Take around half of the trace units which are done for this task
-  const int done = static_cast<int>(doneTraceUnits.size());
-  const int n = std::min(done, std::max(1, done / 2 - 1));
+  const size_t done = doneTraceUnits.size();
+  const size_t n = std::min(done, std::max<size_t>(1, done / 2));
 
   // Have it plot trace units which are done
-  for (int i = 0; i < n; i++)
+  for (size_t i = 0; i < n; i++)
   {
     task.otherUnits.push_back(doneTraceUnits.front());
     doneTraceUnits.pop();
