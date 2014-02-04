@@ -222,6 +222,7 @@ void TaskScheduler::CompleteTask(const Task completedTask)
     case Task::Plot:    CompletePlotTask(completedTask);    break;
     case Task::Gather:  CompleteGatherTask(completedTask);  break;
     case Task::Tonemap: CompleteTonemapTask();              break;
+    case Task::Sleep:                                       break;
   }
 
   // The 'Sleep' task is ignored; it consumes no resources
