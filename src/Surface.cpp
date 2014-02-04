@@ -71,7 +71,6 @@ bool SpacePartitioning::Intersect(const Ray ray,
 
   // Fill in the intersection details
   intersection.distance = t;
-  float sign = Dot(normal, ray.direction);
   intersection.normal = normal; // A space partitioning is one-sided
   intersection.position = ray.origin + t * ray.direction;
 
@@ -189,13 +188,13 @@ bool Sphere::GetIntersections(const Vector3 spherePosition,
 
 Paraboloid::Paraboloid(const Vector3 n, const Vector3 o,
                        const float focalDistance)
-  : normal(n)
-  , offset(o - n * focalDistance)
+  : offset(o - n * focalDistance)
+  , normal(n)
   , focalPoint(n * (focalDistance * 2.0f)) { }
 
 Paraboloid::Paraboloid(const Paraboloid& other)
-  : normal(other.normal)
-  , offset(other.offset)
+  : offset(other.offset)
+  , normal(other.normal)
   , focalPoint(other.focalPoint) { }
 
 bool Paraboloid::Intersect(const Ray ray, Intersection& intersection) const

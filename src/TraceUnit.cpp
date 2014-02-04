@@ -23,8 +23,8 @@ using namespace Luculentus;
 TraceUnit::TraceUnit(const Scene* const scn,
                      const unsigned long randomSeed, const int width,
                      const int height)
-  : scene(scn)
-  , monteCarloUnit(randomSeed)
+  : monteCarloUnit(randomSeed)
+  , scene(scn)
   , aspectRatio(static_cast<float>(width) / static_cast<float>(height))
 {
 
