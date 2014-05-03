@@ -34,9 +34,9 @@ namespace Luculentus
       std::vector<Object> objects;
 
       /// A function that returns the camera through which the scene
-      // will be seen. The function take one parameter, the time (in the
-      // range 0.0 – 1.0), which will be sampled randomly to create
-      // effects like motion blur and zoom blur.
+      /// will be seen. The function takes one parameter, the time (in
+      /// the range 0.0 – 1.0), which will be sampled randomly to create
+      /// effects like motion blur and zoom blur.
       std::function<Camera (const float)> GetCameraAtTime;
 
       /// Intersects the specified ray with the scene.
