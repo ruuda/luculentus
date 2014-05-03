@@ -79,8 +79,9 @@ float TonemapUnit::FindExposure(const GatherUnit& gatherUnit) const
     float intermediateSum = 0.0f;
     for (int y = 0; y < imageHeight; y++)
     {
-      // Calculations are based on the CIE Y value (corresponds to lightness),
-      // but X and Z are also into account slightly to avoid weird situations
+      // Calculations are based on the CIE Y value (corresponds to
+      // lightness), but X and Z are also taken into account slightly to
+      // avoid weird situations
       float cieX = gatherUnit.tristimulusBuffer[y * imageWidth * 3 + x * 3 + 0];
       float cieY = gatherUnit.tristimulusBuffer[y * imageWidth * 3 + x * 3 + 1];
       float cieZ = gatherUnit.tristimulusBuffer[y * imageWidth * 3 + x * 3 + 2];
