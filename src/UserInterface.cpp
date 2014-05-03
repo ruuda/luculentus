@@ -58,7 +58,7 @@ void UserInterface::DisplayImage(int width, int height, std::uint8_t* data)
     width,
     height,
     width * 3            // Rows have a width of three times the number
-  );                     // of pixels (three channels, no unused gaps
+  );                     // of pixels (three channels, no unused gaps)
 
   // Call the dispatcher so it will update the UI
   dispatcher();
