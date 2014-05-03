@@ -44,7 +44,7 @@ TaskScheduler::TaskScheduler(const int numberOfThreads, const int width,
   {
     traceUnits[i] = new TraceUnit(scene, randomSeed, width, height);
     // Pick a different random seed for the next trace unit
-    randomSeed = randomSeed ^ traceUnits[i]->monteCarloUnit.randomEngine();
+    randomSeed = traceUnits[i]->monteCarloUnit.randomEngine();
   }
 
   // Then build the plot units
