@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{6EB30DC2-E371-4489-9FBB-F65CF5C00E6F}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>luculentus</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(GTKMM64_BASEPATH)\MSVC\gtkmm-vc100-d-2_4.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(GTKMM64_BASEPATH)\MSVC\gtkmm-vc100-2_4.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)..\bin\</OutDir>
+    <IntDir>$(SolutionDir)\build\$(Platform)\$(Configuration)\</IntDir>
+    <TargetName>$(ProjectName)d</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)..\bin\</OutDir>
+    <IntDir>$(SolutionDir)\build\$(Platform)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>Full</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\Camera.h" />
+    <ClInclude Include="..\src\Cie1931.h" />
+    <ClInclude Include="..\src\Cie1964.h" />
+    <ClInclude Include="..\src\Compound.h" />
+    <ClInclude Include="..\src\Constants.h" />
+    <ClInclude Include="..\src\EmissiveMaterial.h" />
+    <ClInclude Include="..\src\GatherUnit.h" />
+    <ClInclude Include="..\src\Intersection.h" />
+    <ClInclude Include="..\src\MappedPhoton.h" />
+    <ClInclude Include="..\src\Material.h" />
+    <ClInclude Include="..\src\MonteCarloUnit.h" />
+    <ClInclude Include="..\src\Object.h" />
+    <ClInclude Include="..\src\PlotUnit.h" />
+    <ClInclude Include="..\src\Quaternion.h" />
+    <ClInclude Include="..\src\Ray.h" />
+    <ClInclude Include="..\src\Raytracer.h" />
+    <ClInclude Include="..\src\Scene.h" />
+    <ClInclude Include="..\src\SRgb.h" />
+    <ClInclude Include="..\src\Surface.h" />
+    <ClInclude Include="..\src\Task.h" />
+    <ClInclude Include="..\src\TaskScheduler.h" />
+    <ClInclude Include="..\src\TonemapUnit.h" />
+    <ClInclude Include="..\src\TraceUnit.h" />
+    <ClInclude Include="..\src\UserInterface.h" />
+    <ClInclude Include="..\src\Vector3.h" />
+    <ClInclude Include="..\src\Volume.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\Camera.cpp" />
+    <ClCompile Include="..\src\Cie1931.cpp" />
+    <ClCompile Include="..\src\Cie1964.cpp" />
+    <ClCompile Include="..\src\Compound.cpp" />
+    <ClCompile Include="..\src\EmissiveMaterial.cpp" />
+    <ClCompile Include="..\src\GatherUnit.cpp" />
+    <ClCompile Include="..\src\Main.cpp" />
+    <ClCompile Include="..\src\Material.cpp" />
+    <ClCompile Include="..\src\MonteCarloUnit.cpp" />
+    <ClCompile Include="..\src\PlotUnit.cpp" />
+    <ClCompile Include="..\src\Raytracer.cpp" />
+    <ClCompile Include="..\src\Scene.cpp" />
+    <ClCompile Include="..\src\SRgb.cpp" />
+    <ClCompile Include="..\src\Surface.cpp" />
+    <ClCompile Include="..\src\TaskScheduler.cpp" />
+    <ClCompile Include="..\src\TonemapUnit.cpp" />
+    <ClCompile Include="..\src\TraceUnit.cpp" />
+    <ClCompile Include="..\src\UserInterface.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
