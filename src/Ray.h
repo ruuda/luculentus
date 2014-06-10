@@ -31,7 +31,7 @@ namespace Luculentus
     /// (in nm, so in the range 380 - 780)
     float wavelength;
 
-    /// The probability that a photon folloed this light path.
+    /// The probability that a photon followed this light path.
     /// Note that this can also be compensated for,
     /// if the probability of the ray being generated is not uniform.
     float probability;
