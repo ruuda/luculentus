@@ -32,7 +32,7 @@ using namespace Luculentus;
 bool less_threads = false;
 #ifndef _DEBUG
 const int Raytracer::numberOfThreads =
-  std::max<int>(1, boost::thread::hardware_concurrency() - less_threads);
+  std::max<int>(1, std::thread::hardware_concurrency() - less_threads);
 #else
 // One thread is easier during debugging
 const int Raytracer::numberOfThreads = 1; 
@@ -41,7 +41,7 @@ const int Raytracer::numberOfThreads = 1;
 Raytracer::Raytracer()
   : taskScheduler(numberOfThreads, imageWidth, imageHeight, &scene)
 {
-  workerThreads = new boost::thread[numberOfThreads];
+  workerThreads = new std::thread[numberOfThreads];
 
   // Set up a scene to render
   BuildScene();
@@ -62,7 +62,7 @@ void Raytracer::StartRendering()
   continueRendering = true;
 
   // Start the main render thread, running the RunMain function
-  mainThread = boost::thread(&Raytracer::RunMain, this);
+  mainThread = std::thread(&Raytracer::RunMain, this);
 }
 
 void Raytracer::StopRendering()
@@ -81,7 +81,7 @@ void Raytracer::RunMain()
   for (int i = 0; i < numberOfThreads; i++)
   {
     // Execute the RunWorker method on the worker thread
-    workerThreads[i] = boost::thread(&Raytracer::RunWorker, this);
+    workerThreads[i] = std::thread(&Raytracer::RunWorker, this);
   }
 
   // And then wait for all threads to finish
@@ -126,7 +126,7 @@ void Raytracer::ExecuteTask(const Task task)
 void Raytracer::ExecuteSleepTask(const Task)
 {
   // Sleep 100 ms, then the task is done
-  boost::this_thread::sleep(boost::posix_time::milliseconds(100));
+  std::this_thread::sleep_for(std::chrono::milliseconds(100));
   // That wasn't too hard
 }
 

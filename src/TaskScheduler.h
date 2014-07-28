@@ -16,9 +16,9 @@
 
 #pragma once
 
-#include <queue>
 #include <ctime>
-#include <boost/thread.hpp>
+#include <queue>
+#include <mutex>
 #include "Task.h"
 
 namespace Luculentus
@@ -66,7 +66,7 @@ namespace Luculentus
 
       /// A mutex that ensures only one thread can
       /// access the task scheduler at a given instant.
-      boost::mutex mutex;
+      std::mutex mutex;
 
       /// The interval at which tonemapping happens, in seconds
       const static int tonemappingInterval = 10;

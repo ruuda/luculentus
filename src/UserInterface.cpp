@@ -16,8 +16,6 @@
 
 #include "UserInterface.h"
 
-#include <boost/bind.hpp>
-
 using namespace Luculentus;
 
 UserInterface::UserInterface(int argc, char** argv) :
@@ -39,7 +37,7 @@ UserInterface::UserInterface(int argc, char** argv) :
   mainBox.pack_start(resultImage, true, true);
 
   // If the dispatcher is invoked, display the new image
-  dispatcher.connect(boost::bind(&UserInterface::DisplayImage, this));
+  dispatcher.connect([this]() { this->DisplayImage(); });
 }
 
 UserInterface::~UserInterface()

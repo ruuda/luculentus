@@ -88,7 +88,7 @@ Task TaskScheduler::GetNewTask(const Task completedTask)
 {
   // Acuire a lock during this function;
   // no threads may simultaneously access the scheduling functionality
-  boost::unique_lock<boost::mutex> lock(mutex);
+  std::unique_lock<std::mutex> lock(mutex);
 
   // Make units that were used by the completed task available again
   CompleteTask(completedTask);

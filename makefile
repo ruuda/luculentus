@@ -23,7 +23,7 @@ SOURCES = Camera.cpp Cie1931.cpp Cie1964.cpp Compound.cpp \
   UserInterface.cpp
 SRC = $(addprefix src/, $(SOURCES))
 OBJS = $(addsuffix .o, $(basename $(SRC)))
-LIBS = -lboost_thread -lboost_system -lstdc++ -lm
+LIBS = -lstdc++ -lm
 
 all: release
 

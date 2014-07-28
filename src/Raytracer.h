@@ -16,8 +16,8 @@
 
 #pragma once
 
-#include <boost/thread.hpp>
-#include <boost/atomic.hpp>
+#include <atomic>
+#include <thread>
 #include "UserInterface.h"
 #include "Scene.h"
 #include "TaskScheduler.h"
@@ -58,14 +58,14 @@ namespace Luculentus
       static const int numberOfThreads;
 
       /// Whether to not stop rendering
-      boost::atomic<bool> continueRendering;
+      std::atomic<bool> continueRendering;
 
       /// The thread that starts the workers and then waits for them to
       /// finish.
-      boost::thread mainThread;
+      std::thread mainThread;
 
       /// The threads that execute the tasks
-      boost::thread* workerThreads;
+      std::thread* workerThreads;
 
       /// The TaskScheduler responsible for dividing work across threads.
       TaskScheduler taskScheduler;
