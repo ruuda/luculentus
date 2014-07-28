@@ -17,8 +17,7 @@
 *.opensdf
 *.vcxproj.filters
 *.user
-msvc100/ipch
-msvc100/build
+msvc110/build
 
 # Binaries
 bin
