@@ -11,15 +11,6 @@ Dependencies
 First of all, you must make sure that you have the required development
 libraries of the dependencies on your system.
 
-Boost
------
-[Boost](http://www.boost.org) is an extension to the Standard Template
-Library. On Unix-like platforms, Boost will be present in the package
-repositories. On Windows, you need to download the source from
-[boost.org](http://www.boost.org/). You can then either compile Boost
-yourself, or get prebuilt binaries. [Teeks99](http://boost.teeks99.com/)
-has excellent binaries for Visual Studio.
-
 gtkmm
 -----
 Luculentus uses gtkmm for its user interface. gtkmm is a C++ wrapper for
@@ -36,11 +27,8 @@ version 2.22.
 
 Compiling
 =========
-For Visual Studio, if you have not done so already, you might need to
-add the Boost include directories and linker directories to your search
-paths. If you used the gtkmm installer, it will have defined an
-environment variable that will be used to find the correct directories
-automatically.
+If you used the gtkmm installer, it will have defined an environment
+variable that will be used to find the correct directories automatically.
 
 On Unix-like systems, simply run
 
