@@ -1,5 +1,5 @@
 // Luculentus -- Proof of concept spectral path tracer
-// Copyright (C) 2012  Ruud van Asseldonk
+// Copyright (C) 2012, 2014  Ruud van Asseldonk
 // 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -16,7 +16,6 @@
 
 #include "GatherUnit.h"
 
-#include <memory>
 #include "PlotUnit.h"
 
 using namespace Luculentus;
@@ -25,17 +24,9 @@ GatherUnit::GatherUnit(const int width, const int height)
   : imageWidth(width)
   , imageHeight(height)
 {
-  // Allocate a buffer to store the tristimulus values
-  tristimulusBuffer = new float[imageWidth * imageHeight * 3];
-
-  // And make sure the buffer is black
-  std::uninitialized_fill_n(tristimulusBuffer,
-                            imageWidth * imageHeight * 3, 0.0f);
-}
-
-GatherUnit::~GatherUnit()
-{
-  delete [] tristimulusBuffer;
+  // Allocate a buffer to store the tristimulus values,
+  // and fill it with black.
+  tristimulusBuffer.resize(imageWidth * imageHeight * 3, 0.0f);
 }
 
 void GatherUnit::Accumulate(PlotUnit& plotUnit)
