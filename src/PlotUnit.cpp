@@ -1,5 +1,5 @@
 // Luculentus -- Proof of concept spectral path tracer
-// Copyright (C) 2012  Ruud van Asseldonk
+// Copyright (C) 2012, 2014  Ruud van Asseldonk
 // 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
 
 #include "PlotUnit.h"
 
-#include <memory>
+#include <algorithm>
 #include "TraceUnit.h"
 #include "Cie1931.h"
 
@@ -27,22 +27,14 @@ PlotUnit::PlotUnit(const int width, const int height)
   , imageHeight(height)
   , aspectRatio(static_cast<float>(width) / static_cast<float>(height))
 {
-  // Allocate a buffer to store the tristimulus values
-  tristimulusBuffer = new float[imageWidth * imageHeight * 3];
-
-  // And make sure the buffer is black
-  Clear();
-}
-
-PlotUnit::~PlotUnit()
-{
-  delete [] tristimulusBuffer;
+  // Allocate a buffer to store the tristimulus values,
+  // and fill it with black
+  tristimulusBuffer.resize(imageWidth * imageHeight * 3, 0.0f);
 }
 
 void PlotUnit::Clear()
 {
-  std::uninitialized_fill_n(tristimulusBuffer, 
-    imageWidth * imageHeight * 3, 0.0f);
+  std::fill(tristimulusBuffer.begin(), tristimulusBuffer.end(), 0.0f);
 }
 
 void PlotUnit::Plot(const TraceUnit& traceUnit)
