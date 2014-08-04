@@ -81,12 +81,6 @@ namespace Luculentus
     return a * f;
   }
 
-  inline Vector3 operator/(const Vector3 a, const float f)
-  {
-    Vector3 quot = { a.x / f, a.y / f, a.z / f };
-    return quot;
-  }
-
   inline float Dot(const Vector3 a, const Vector3 b)
   {
     return  a.x * b.x + a.y * b.y + a.z * b.z;
