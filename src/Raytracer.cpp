@@ -177,7 +177,7 @@ void Raytracer::ExecuteTonemapTask(const Task)
 
   // And then display the tonemapped image on the screen
   userInterface->DisplayImage(imageWidth, imageHeight,
-                              taskScheduler.tonemapUnit->rgbBuffer);
+                              &taskScheduler.tonemapUnit->rgbBuffer[0]);
 }
 
 /* Begin Huge Monolithic Scene Initialisation Function */

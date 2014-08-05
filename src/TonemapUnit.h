@@ -1,5 +1,5 @@
 // Luculentus -- Proof of concept spectral path tracer
-// Copyright (C) 2012  Ruud van Asseldonk
+// Copyright (C) 2012, 2014  Ruud van Asseldonk
 // 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -17,6 +17,7 @@
 #pragma once
 
 #include <cstdint>
+#include <vector>
 
 namespace Luculentus
 {
@@ -34,14 +35,11 @@ namespace Luculentus
       const int imageHeight;
 
       /// The buffer of sRGB values.
-      std::uint8_t* rgbBuffer;
+      std::vector<std::uint8_t> rgbBuffer;
 
       /// Constructs a new gather unit that will gather a canvas
       /// of the specified size.
       TonemapUnit(const int width, const int height);
-
-      /// Frees the allocated buffers
-      ~TonemapUnit();
 
       /// Converts the unweighted CIE XYZ values in the GatherUnit
       /// to tonemapped sRGB values.

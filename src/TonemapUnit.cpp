@@ -28,12 +28,7 @@ TonemapUnit::TonemapUnit(const int width, const int height)
   , imageHeight(height)
 {
   // Allocate a buffer to store the sRGB values
-  rgbBuffer = new std::uint8_t[imageWidth * imageHeight * 3];
-}
-
-TonemapUnit::~TonemapUnit()
-{
-  delete [] rgbBuffer;
+  rgbBuffer.resize(imageWidth * imageHeight * 3, 0);
 }
 
 void TonemapUnit::Tonemap(const GatherUnit& gatherUnit)
