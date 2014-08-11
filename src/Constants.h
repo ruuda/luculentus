@@ -26,7 +26,7 @@ namespace Luculentus
 
   const double boltzmannsConstant = 1.3806488e-23;
 
-  const double speedOfLight = 299792458.0f;
+  const double speedOfLight = 299792458.0;
 
   const double wiensConstant = 2.897772126e-3;
 }
