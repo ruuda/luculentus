@@ -82,9 +82,6 @@ Ray Camera::GetRay(const float x, const float y, const float wavelength,
   Ray r = GetScreenRay(x, y, chromaticZoom, dofAngle, dofRadius);
   r.wavelength = wavelength;
 
-  // Direction should be normalised after scaling components
-  r.direction.Normalise();
-
   r.probability = 1.0f;
 
   return r;
