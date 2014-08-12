@@ -165,10 +165,9 @@ bool Sphere::GetIntersections(const Vector3 spherePosition,
 {
   // Compute a, b, c factors of the quadratic equation
   const float a = 1.0f;
-  const Vector3 centreDifference = spherePosition - rayOrigin;
-  const float b = 2.0f * Dot(rayDirection, centreDifference);
-  const float c = centreDifference.MagnitudeSquared()
-                - sphereRadiusSquared;
+  const Vector3 centreOffset = spherePosition - rayOrigin;
+  const float b = 2.0f * Dot(rayDirection, centreOffset);
+  const float c = centreOffset.MagnitudeSquared() - sphereRadiusSquared;
 
   // The discriminant determines whether the equation has a solution
   const float discriminant = b * b - 4.0f * a * c;
