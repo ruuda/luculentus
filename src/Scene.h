@@ -21,7 +21,6 @@
 #include "Camera.h"
 #include "Ray.h"
 #include "Object.h"
-#include "Material.h"
 
 namespace Luculentus
 {
@@ -30,7 +29,6 @@ namespace Luculentus
     public:
 
       /// All the renderable objects in the scene.
-      /// Emissive objects must be last.
       std::vector<Object> objects;
 
       /// A function that returns the camera through which the scene
