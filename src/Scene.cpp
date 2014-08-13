@@ -25,17 +25,17 @@ const Object* Scene::Intersect(Ray ray, Intersection& intersection) const
   intersection.distance = 1.0e12f;
 
   // Then intersect all surfaces
-  for (unsigned int i = 0; i < objects.size(); i++)
+  for (auto& obj : objects)
   {
     Intersection currentIntersection;
-    if (objects[i].surface->Intersect(ray, currentIntersection))
+    if (obj.surface->Intersect(ray, currentIntersection))
     {
       // If there is an intersection, and if it is nearer than a
       // previous one, use it.
       if (currentIntersection.distance < intersection.distance)
       {
         intersection = currentIntersection;
-        object = &(objects[i]);
+        object = &obj;
       }
     }
   }
