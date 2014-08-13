@@ -32,13 +32,13 @@ namespace Luculentus
     public:
 
       /// The temperature of the black body, in Kelvin. 6504 is a warm
-      /// white, higher values are blue-is, lower are red-ish.
+      /// white, higher values are blue-ish, lower are red-ish.
       const float temperature;
 
       /// Bodies with lower temperature also have a lower intensity,
       /// but for the purposes of a light source, only the distribution
       /// is important, not the intensity, so the distribution must be
-      /// normalized.
+      /// normalised.
       const float normalisationFactor;
 
       /// Constructs a black body material with the specified
