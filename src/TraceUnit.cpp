@@ -32,7 +32,7 @@ TraceUnit::TraceUnit(const Scene* const scn,
 
 void TraceUnit::Render()
 {
-  for (int i = 0; i < numberOfMappedPhotons; i++)
+  for (auto& mappedPhoton : mappedPhotons)
   {
     // Pick a wavelength for this photon
     const float wavelength = monteCarloUnit.GetWavelength();
@@ -42,12 +42,12 @@ void TraceUnit::Render()
     const float y = monteCarloUnit.GetBiUnit() / aspectRatio;
 
     // Store the pixel coordinates already
-    mappedPhotons[i].wavelength = wavelength;
-    mappedPhotons[i].x = x;
-    mappedPhotons[i].y = y;
+    mappedPhoton.wavelength = wavelength;
+    mappedPhoton.x = x;
+    mappedPhoton.y = y;
     
     // And then trace the scene at this wavelength
-    mappedPhotons[i].probability = RenderCameraRay(x, y, wavelength);
+    mappedPhoton.probability = RenderCameraRay(x, y, wavelength);
   }
 }
 
