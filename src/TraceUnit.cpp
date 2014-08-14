@@ -46,7 +46,7 @@ void TraceUnit::Render()
     mappedPhotons[i].x = x;
     mappedPhotons[i].y = y;
     
-    // And then trace the scene three times at this wavelength
+    // And then trace the scene at this wavelength
     mappedPhotons[i].probability = RenderCameraRay(x, y, wavelength);
   }
 }
