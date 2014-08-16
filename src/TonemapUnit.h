@@ -37,7 +37,7 @@ namespace Luculentus
       /// The buffer of sRGB values.
       std::vector<std::uint8_t> rgbBuffer;
 
-      /// Constructs a new gather unit that will gather a canvas
+      /// Constructs a new tonemap unit that will tonemap a canvas
       /// of the specified size.
       TonemapUnit(const int width, const int height);
 
