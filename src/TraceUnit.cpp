@@ -78,8 +78,6 @@ float TraceUnit::RenderRay(Ray ray)
   // probabilities
   float intensity = 1.0f;
 
-  int n = 1;
-
   do
   {
     // Intersect the ray with the scene
@@ -108,7 +106,6 @@ float TraceUnit::RenderRay(Ray ray)
 
     // And the chance of a new bounce decreases slightly
     continueChance *= 0.96f;
-    n++;
   }
   // Use a sharp falloff based on intensity, so an intensity of
   // 0.1 still has 86% chance of continuing, but an intensity of
