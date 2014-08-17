@@ -94,8 +94,7 @@ namespace Luculentus
       TonemapUnit* tonemapUnit;
 
       /// Creates a new task scheduler, that will render the specified
-      /// scene to a canvas of specified size, and display it in the
-      /// specified user interface.
+      /// scene to a canvas of specified size.
       TaskScheduler(const int numberOfThreads, const int width,
                     const int height, const Scene* scene);
 
