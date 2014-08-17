@@ -35,14 +35,15 @@ TaskScheduler::TaskScheduler(const int numberOfThreads, const int width,
   numberOfPlotUnits  = std::max(1, numberOfThreads / 2);
 
   // Allocate some space for the work unit arrays
-  traceUnits = new TraceUnit*[numberOfTraceUnits];
-  plotUnits  = new PlotUnit*[numberOfPlotUnits];
+  traceUnits.reserve(numberOfTraceUnits);
+  plotUnits.reserve(numberOfPlotUnits);
 
   // Build all the trace units, with a different random seed for all units
   unsigned long randomSeed = static_cast<unsigned long>(std::time(nullptr));
   for (size_t i = 0; i < numberOfTraceUnits; i++)
   {
-    traceUnits[i] = new TraceUnit(scene, randomSeed, width, height);
+    traceUnits.push_back(std::make_shared<TraceUnit>(scene, randomSeed,
+                                                     width, height));
     // Pick a different random seed for the next trace unit
     randomSeed = traceUnits[i]->monteCarloUnit.randomEngine();
   }
@@ -50,14 +51,14 @@ TaskScheduler::TaskScheduler(const int numberOfThreads, const int width,
   // Then build the plot units
   for (size_t i = 0; i < numberOfPlotUnits; i++)
   {
-    plotUnits[i] = new PlotUnit(width, height);
+    plotUnits.push_back(std::make_shared<PlotUnit>(width, height));
   }
 
   // There must be one gather unit
-  gatherUnit = new GatherUnit(width, height);
+  gatherUnit = std::make_shared<GatherUnit>(width, height);
 
   // And finally the tonemap unit
-  tonemapUnit = new TonemapUnit(width, height);
+  tonemapUnit = std::make_shared<TonemapUnit>(width, height);
 
   // Everything is available at this point
   for (size_t i = 0; i < numberOfTraceUnits; i++) availableTraceUnits.push(i);
@@ -69,19 +70,6 @@ TaskScheduler::TaskScheduler(const int numberOfThreads, const int width,
   imageChanged = false;
   // Tonemap as soon as possible
   lastTonemapTime = std::time(nullptr) - tonemappingInterval;
-}
-
-TaskScheduler::~TaskScheduler()
-{
-  // Delete all trace units and plot units
-  for (size_t i = 0; i < numberOfTraceUnits; i++) delete traceUnits[i];
-  for (size_t i = 0; i < numberOfPlotUnits; i++) delete plotUnits[i];
-  delete [] traceUnits;
-  delete [] plotUnits;
-
-  // And the gather and tonemap units
-  delete gatherUnit;
-  delete tonemapUnit;
 }
 
 Task TaskScheduler::GetNewTask(const Task completedTask)

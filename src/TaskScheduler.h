@@ -17,8 +17,9 @@
 #pragma once
 
 #include <ctime>
-#include <queue>
+#include <memory>
 #include <mutex>
+#include <queue>
 #include "Task.h"
 
 namespace Luculentus
@@ -82,24 +83,21 @@ namespace Luculentus
       size_t numberOfPlotUnits;
 
       /// An array of all TraceUnits in the tracer.
-      TraceUnit**  traceUnits;
+      std::vector<std::shared_ptr<TraceUnit>> traceUnits;
 
       /// An array of all PlotUnits in the tracer.
-      PlotUnit**   plotUnits;
+      std::vector<std::shared_ptr<PlotUnit>> plotUnits;
 
       /// The single GatherUnit.
-      GatherUnit*  gatherUnit;
+      std::shared_ptr<GatherUnit>  gatherUnit;
 
       /// The single TonemapUnit.
-      TonemapUnit* tonemapUnit;
+      std::shared_ptr<TonemapUnit> tonemapUnit;
 
       /// Creates a new task scheduler, that will render the specified
       /// scene to a canvas of specified size.
       TaskScheduler(const int numberOfThreads, const int width,
                     const int height, const Scene* scene);
-
-      /// Cleans up all the work units
-      ~TaskScheduler();
 
       /// Notifies the task scheduler that a task is complete.
       /// The task scheduler will find some more work to do,

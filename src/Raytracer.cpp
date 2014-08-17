@@ -144,7 +144,7 @@ void Raytracer::ExecutePlotTask(Task task)
     // Take one trace unit
     int index = task.otherUnits.back();
     task.otherUnits.pop_back();
-    TraceUnit* traceUnit = taskScheduler.traceUnits[index];
+    auto traceUnit = taskScheduler.traceUnits[index];
 
     // And plot it using the correct plot unit
     taskScheduler.plotUnits[task.unit]->Plot(*traceUnit);
@@ -159,7 +159,7 @@ void Raytracer::ExecuteGatherTask(Task task)
     // Take one plot unit
     int index = task.otherUnits.back();
     task.otherUnits.pop_back();
-    PlotUnit* plotUnit = taskScheduler.plotUnits[index];
+    auto plotUnit = taskScheduler.plotUnits[index];
 
     // Accumulate the plotted data into the gather unit
     taskScheduler.gatherUnit->Accumulate(*plotUnit);
