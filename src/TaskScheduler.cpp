@@ -104,7 +104,7 @@ Task TaskScheduler::GetNewTask(const Task completedTask)
     }
   }
 
-  // If a substantial number of trace units is done, tonemap them first
+  // If a substantial number of trace units is done, plot them first
   // so they can be recycled soon
   if (doneTraceUnits.size() > numberOfTraceUnits / 2
       && !availablePlotUnits.empty()) return CreatePlotTask();
