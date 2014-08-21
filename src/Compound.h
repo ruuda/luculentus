@@ -62,7 +62,7 @@ namespace Luculentus
         if (!surface1Intersected && !surface2Intersected) return false;
 
         // Invalidate intersections that do not lie inside
-        // the union of the two volumes
+        // the intersection of the two volumes.
         if (surface1Intersected && !surface2.LiesInside(i1.position))
           surface1Intersected = false;
         if (surface2Intersected && !surface1.LiesInside(i2.position))
