@@ -225,7 +225,7 @@ Ray RefractiveMaterial::GetNewRay(const Ray incomingRay,
                               * (1.0f - cosI * cosI);
 
   // When refraction is impossible,
-  // total internal reflection must have occured
+  // total internal reflection must have occurred
   if (sinThetaSquared > 1.0f)
   {
     newRay.direction = Reflect(incomingRay.direction, intersection.normal);
