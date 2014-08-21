@@ -75,9 +75,7 @@ namespace Luculentus
         // If both intersections are valid, pick the closest one
         if (surface1Intersected && surface2Intersected)
         {
-          if ((i1.position - ray.origin).MagnitudeSquared()
-              < (i2.position - ray.origin).MagnitudeSquared())
-            surface2Intersected = false;
+          if (i1.distance < i2.distance)surface2Intersected = false;
           else surface1Intersected = false;
         }
 
