@@ -70,6 +70,9 @@ TaskScheduler::TaskScheduler(const int numberOfThreads, const int width,
   imageChanged = false;
   // Tonemap as soon as possible
   lastTonemapTime = std::time(nullptr) - tonemappingInterval;
+
+  completedTraces = 0;
+  startTime = std::time(nullptr);
 }
 
 Task TaskScheduler::GetNewTask(const Task completedTask)
@@ -224,6 +227,8 @@ void TaskScheduler::CompleteTraceTask(const Task completedTask)
   // The trace unit used for the task, now need plotting before it is
   // available again
   doneTraceUnits.push(completedTask.unit);
+
+  completedTraces++;
 }
 
 void TaskScheduler::CompletePlotTask(Task completedTask)
@@ -282,4 +287,11 @@ void TaskScheduler::CompleteTonemapTask()
   // it will not change
   imageChanged = false;
   lastTonemapTime = std::time(nullptr);
+
+  // Measure how many rays per seconds the renderer can handle.
+  const auto renderTime = std::time(nullptr) - startTime;
+  const double batchesPerSecond =
+    static_cast<double>(completedTraces) / renderTime;
+  std::cout << "performance: " << batchesPerSecond
+            << " batches/sec" << std::endl;
 }
