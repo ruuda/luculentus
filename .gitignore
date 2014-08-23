@@ -11,13 +11,16 @@
 *.la
 *.a
 
-# Visual Studio garbadge
+# Visual Studio garbage
 *.suo
 *.sdf
 *.opensdf
 *.vcxproj.filters
 *.user
 msvc110/build
+
+# Vim garbage
+*.swp
 
 # Binaries
 bin
