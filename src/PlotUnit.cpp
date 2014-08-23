@@ -29,40 +29,28 @@ PlotUnit::PlotUnit(const int width, const int height)
 {
   // Allocate a buffer to store the tristimulus values,
   // and fill it with black
-  tristimulusBuffer.resize(imageWidth * imageHeight * 3, 0.0f);
+  tristimulusBuffer.resize(imageWidth * imageHeight, ZeroVector3());
 }
 
 void PlotUnit::Clear()
 {
-  std::fill(tristimulusBuffer.begin(), tristimulusBuffer.end(), 0.0f);
+  std::fill(tristimulusBuffer.begin(), tristimulusBuffer.end(), ZeroVector3());
 }
 
 void PlotUnit::Plot(const TraceUnit& traceUnit)
 {
   // Loop trough every mapped photon, and plot it.
-  for (auto mp : traceUnit.mappedPhotons)
+  for (auto photon : traceUnit.mappedPhotons)
   {
-    PlotPhoton(mp.x, mp.y, mp.wavelength, mp.probability);
+    // Calculate the CIE tristimulus values, given the wavelength.
+    Vector3 cie = Cie1931::GetTristimulus(photon.wavelength);
+
+    // Then plot the pixel into the buffer.
+    PlotPixel(photon.x, photon.y, cie * photon.probability);
   }
 }
 
-void PlotUnit::PlotPhoton(float x, float y, float wavelength,
-                          float intensity)
-{
-  // Calculate the CIE tristimulus values, given the wavelength
-  float cieX, cieY, cieZ;
-  Cie1931::GetTristimulus(wavelength, cieX, cieY, cieZ);
-
-  cieX *= intensity;
-  cieY *= intensity;
-  cieZ *= intensity;
-
-  // Then plot the pixel into the buffer
-  PlotPixel(x, y, cieX, cieY, cieZ);
-}
-
-void PlotUnit::PlotPixel(float x, float y, float cieX, float cieY,
-                         float cieZ)
+void PlotUnit::PlotPixel(float x, float y, Vector3 cie)
 {
   // Map the position to some pixels
   float px = (x * 0.5f + 0.5f) * (imageWidth - 1);
@@ -87,19 +75,8 @@ void PlotUnit::PlotPixel(float x, float y, float cieX, float cieY,
   float c22 = cx * cy;
 
   // Plot the four pixels
-  tristimulusBuffer[py1 * imageWidth * 3 + px1 * 3 + 0] += cieX * c11;
-  tristimulusBuffer[py1 * imageWidth * 3 + px1 * 3 + 1] += cieY * c11;
-  tristimulusBuffer[py1 * imageWidth * 3 + px1 * 3 + 2] += cieZ * c11;
-
-  tristimulusBuffer[py1 * imageWidth * 3 + px2 * 3 + 0] += cieX * c21;
-  tristimulusBuffer[py1 * imageWidth * 3 + px2 * 3 + 1] += cieY * c21;
-  tristimulusBuffer[py1 * imageWidth * 3 + px2 * 3 + 2] += cieZ * c21;
-
-  tristimulusBuffer[py2 * imageWidth * 3 + px1 * 3 + 0] += cieX * c12;
-  tristimulusBuffer[py2 * imageWidth * 3 + px1 * 3 + 1] += cieY * c12;
-  tristimulusBuffer[py2 * imageWidth * 3 + px1 * 3 + 2] += cieZ * c12;
-
-  tristimulusBuffer[py2 * imageWidth * 3 + px2 * 3 + 0] += cieX * c22;
-  tristimulusBuffer[py2 * imageWidth * 3 + px2 * 3 + 1] += cieY * c22;
-  tristimulusBuffer[py2 * imageWidth * 3 + px2 * 3 + 2] += cieZ * c22;
+  tristimulusBuffer[py1 * imageWidth + px1] += cie * c11;
+  tristimulusBuffer[py1 * imageWidth + px2] += cie * c21;
+  tristimulusBuffer[py2 * imageWidth + px1] += cie * c12;
+  tristimulusBuffer[py2 * imageWidth + px2] += cie * c22;
 }

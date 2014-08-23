@@ -39,18 +39,18 @@ void TonemapUnit::Tonemap(const GatherUnit& gatherUnit)
   {
     for (int y = 0; y < imageHeight; y++)
     {
-      float cieX = gatherUnit.tristimulusBuffer[y * imageWidth * 3 + x * 3 + 0];
-      float cieY = gatherUnit.tristimulusBuffer[y * imageWidth * 3 + x * 3 + 1];
-      float cieZ = gatherUnit.tristimulusBuffer[y * imageWidth * 3 + x * 3 + 2];
+      Vector3 cie = gatherUnit.tristimulusBuffer[y * imageWidth + x];
 
       // Apply exposure correction
-      cieX = std::log(cieX / maxIntensity + 1.0f) / std::log(4.0f);
-      cieY = std::log(cieY / maxIntensity + 1.0f) / std::log(4.0f);
-      cieZ = std::log(cieZ / maxIntensity + 1.0f) / std::log(4.0f);
+      cie.x = std::log(cie.x / maxIntensity + 1.0f) / std::log(4.0f);
+      cie.y = std::log(cie.y / maxIntensity + 1.0f) / std::log(4.0f);
+      cie.z = std::log(cie.z / maxIntensity + 1.0f) / std::log(4.0f);
 
-      // Convert to sRGB
-      float r, g, b;
-      SRgb::Transform(cieX, cieY, cieZ, r, g, b);
+      // Convert to sRGB.
+      Vector3 rgb = SRgb::Transform(cie);
+      float r = rgb.x;
+      float g = rgb.y;
+      float b = rgb.z;
 
       // Clamp colours to saturate
       r = std::min<float>(1.0f, std::max<float>(0.0f, r));
@@ -77,17 +77,15 @@ float TonemapUnit::FindExposure(const GatherUnit& gatherUnit) const
       // Calculations are based on the CIE Y value (corresponds to
       // lightness), but X and Z are also taken into account slightly to
       // avoid weird situations
-      float cieX = gatherUnit.tristimulusBuffer[y * imageWidth * 3 + x * 3 + 0];
-      float cieY = gatherUnit.tristimulusBuffer[y * imageWidth * 3 + x * 3 + 1];
-      float cieZ = gatherUnit.tristimulusBuffer[y * imageWidth * 3 + x * 3 + 2];
+      Vector3 cie = gatherUnit.tristimulusBuffer[y * imageWidth + x];
 
-      float intensity = (cieY * 5.0f + cieX + cieZ) * (1.0f / 7.0f);
+      float intensity = cie.y * 5.0f + cie.x + cie.z;
       intermediateSum += intensity;
     }
     sum += intermediateSum / imageHeight;
   }
 
-  float average = sum / imageWidth;
+  float average = sum / imageWidth / 7.0f;
 
   // Then calculate the standard deviation
   sum = 0.0f;
@@ -96,17 +94,16 @@ float TonemapUnit::FindExposure(const GatherUnit& gatherUnit) const
     float intermediateSum = 0.0f;
     for (int y = 0; y < imageHeight; y++)
     {
-      float cieX = gatherUnit.tristimulusBuffer[y * imageWidth * 3 + x * 3 + 0];
-      float cieY = gatherUnit.tristimulusBuffer[y * imageWidth * 3 + x * 3 + 1];
-      float cieZ = gatherUnit.tristimulusBuffer[y * imageWidth * 3 + x * 3 + 2];
+      Vector3 cie = gatherUnit.tristimulusBuffer[y * imageWidth + x];
 
-      float intensity = (cieY * 5.0f + cieX + cieZ) * (1.0f / 7.0f);
-      intermediateSum += (intensity - average) * (intensity - average);
+      float intensity = cie.y * 5.0f + cie.x + cie.z;
+      intermediateSum += intensity * intensity;
     }
     sum += intermediateSum / imageHeight;
   }
 
-  float variance = sum / imageWidth;
+  float averageSqr = sum / imageWidth / 49.0;
+  float variance = averageSqr - average * average;
   float standardDeviation = std::sqrt(variance);
 
   // The desired 'white' is one standard deviation above average

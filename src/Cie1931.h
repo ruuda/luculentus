@@ -1,5 +1,5 @@
 // Luculentus -- Proof of concept spectral path tracer
-// Copyright (C) 2012  Ruud van Asseldonk
+// Copyright (C) 2012, 2014  Ruud van Asseldonk
 // 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,6 +15,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
+
+#include "Vector3.h"
 
 namespace Luculentus
 {
@@ -37,7 +39,6 @@ namespace Luculentus
 
     public:
     
-      static void GetTristimulus(float wavelength, float& cieX,
-                                 float& cieY, float& cieZ);
+      static Vector3 GetTristimulus(float wavelength);
   };
 }

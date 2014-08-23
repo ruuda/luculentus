@@ -1,5 +1,5 @@
 // Luculentus -- Proof of concept spectral path tracer
-// Copyright (C) 2012  Ruud van Asseldonk
+// Copyright (C) 2012, 2014  Ruud van Asseldonk
 // 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,7 +15,9 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
+
 #include <cmath>
+#include "Vector3.h"
 
 namespace Luculentus
 {
@@ -40,7 +42,6 @@ namespace Luculentus
     public:
 
       /// Converts a CIE XYZ tristimulus to an sRGB colour
-      static void Transform(float cieX, float cieY, float cieZ,
-                            float& r, float& g, float& b);
+      static Vector3 Transform(Vector3 cie);
   };
 }

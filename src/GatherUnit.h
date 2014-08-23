@@ -17,6 +17,7 @@
 #pragma once
 
 #include <vector>
+#include "Vector3.h"
 
 namespace Luculentus
 {
@@ -34,7 +35,7 @@ namespace Luculentus
       const int imageHeight;
 
       /// The buffer of tristimulus values.
-      std::vector<float> tristimulusBuffer;
+      std::vector<Vector3> tristimulusBuffer;
 
       /// Constructs a new gather unit that will gather a canvas of the
       /// specified size.

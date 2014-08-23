@@ -26,13 +26,13 @@ GatherUnit::GatherUnit(const int width, const int height)
 {
   // Allocate a buffer to store the tristimulus values,
   // and fill it with black.
-  tristimulusBuffer.resize(imageWidth * imageHeight * 3, 0.0f);
+  tristimulusBuffer.resize(imageWidth * imageHeight, ZeroVector3());
 }
 
 void GatherUnit::Accumulate(PlotUnit& plotUnit)
 {
   // Loop through all pixels, and add the values
-  for (int i = 0; i < imageWidth * imageHeight * 3; i++)
+  for (int i = 0; i < imageWidth * imageHeight; i++)
   {
     tristimulusBuffer[i] += plotUnit.tristimulusBuffer[i];
   }

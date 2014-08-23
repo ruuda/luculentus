@@ -58,6 +58,11 @@ namespace Luculentus
     return sum;
   }
 
+  inline Vector3 operator+=(Vector3& a, const Vector3 b)
+  {
+    return a = a + b;
+  }
+
   inline Vector3 operator-(const Vector3 a, const Vector3 b)
   {
     Vector3 diff = { a.x - b.x, a.y - b.y, a.z - b.z };
@@ -123,5 +128,10 @@ namespace Luculentus
   {
     Vector3 v = { x, y, z };
     return v;
+  }
+
+  inline Vector3 ZeroVector3()
+  {
+    return MakeVector3(0.0f, 0.0f, 0.0f);
   }
 }

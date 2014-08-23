@@ -17,6 +17,7 @@
 #pragma once
 
 #include <vector>
+#include "Vector3.h"
 
 namespace Luculentus
 {
@@ -37,7 +38,7 @@ namespace Luculentus
       const float aspectRatio;
 
       /// The buffer of tristimulus values.
-      std::vector<float> tristimulusBuffer;
+      std::vector<Vector3> tristimulusBuffer;
 
       /// Constructs a new plot unit that will plot to a canvas
       /// of the specified size.
@@ -51,13 +52,8 @@ namespace Luculentus
 
     private:
 
-      /// Plots a photon into the tristimulus buffer.
-      void PlotPhoton(float x, float y, float wavelength,
-                      float intensity);
-
       /// Plots a pixel, anti-aliased into the buffer
       /// (adding it to existing content).
-      void PlotPixel(float x, float y, float cieX, float cieY,
-                     float cieZ);
+      void PlotPixel(float x, float y, Vector3 cie);
   };
 }

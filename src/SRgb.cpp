@@ -1,5 +1,5 @@
 // Luculentus -- Proof of concept spectral path tracer
-// Copyright (C) 2012  Ruud van Asseldonk
+// Copyright (C) 2012, 2014  Ruud van Asseldonk
 // 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,16 +18,20 @@
 
 using namespace Luculentus;
 
-void SRgb::Transform(float cieX, float cieY, float cieZ, float& r,
-                     float& g, float& b)
+Vector3 SRgb::Transform(Vector3 cie)
 {
   // Apply sRGB matrix
-  r =  3.2406f * cieX - 1.5372f * cieY - 0.4986f * cieZ;
-  g = -0.9689f * cieX + 1.8758f * cieY + 0.0415f * cieZ;
-  b =  0.0557f * cieX - 0.2040f * cieY + 1.0570f * cieZ;
+  float r =  3.2406f * cie.x - 1.5372f * cie.y - 0.4986f * cie.z;
+  float g = -0.9689f * cie.x + 1.8758f * cie.y + 0.0415f * cie.z;
+  float b =  0.0557f * cie.x - 0.2040f * cie.y + 1.0570f * cie.z;
 
   // Then do gamma correction
-  r = GammaCorrect(r);
-  g = GammaCorrect(g);
-  b = GammaCorrect(b);
+  Vector3 rgb =
+  {
+    GammaCorrect(r),
+    GammaCorrect(g),
+    GammaCorrect(b)
+  };
+
+  return rgb;
 }
