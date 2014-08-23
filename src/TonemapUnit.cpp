@@ -74,18 +74,15 @@ float TonemapUnit::FindExposure(const GatherUnit& gatherUnit) const
     float intermediateSum = 0.0f;
     for (int y = 0; y < imageHeight; y++)
     {
-      // Calculations are based on the CIE Y value (corresponds to
-      // lightness), but X and Z are also taken into account slightly to
-      // avoid weird situations
+      // Calculations are based on the CIE Y value,
+      // which corresponds to lightness.
       Vector3 cie = gatherUnit.tristimulusBuffer[y * imageWidth + x];
-
-      float intensity = cie.y * 5.0f + cie.x + cie.z;
-      intermediateSum += intensity;
+      intermediateSum += cie.y;
     }
     sum += intermediateSum / imageHeight;
   }
 
-  float average = sum / imageWidth / 7.0f;
+  float average = sum / imageWidth;
 
   // Then calculate the standard deviation
   sum = 0.0f;
@@ -95,14 +92,12 @@ float TonemapUnit::FindExposure(const GatherUnit& gatherUnit) const
     for (int y = 0; y < imageHeight; y++)
     {
       Vector3 cie = gatherUnit.tristimulusBuffer[y * imageWidth + x];
-
-      float intensity = cie.y * 5.0f + cie.x + cie.z;
-      intermediateSum += intensity * intensity;
+      intermediateSum += cie.y * cie.y;
     }
     sum += intermediateSum / imageHeight;
   }
 
-  float averageSqr = sum / imageWidth / 49.0;
+  float averageSqr = sum / imageWidth;
   float variance = averageSqr - average * average;
   float standardDeviation = std::sqrt(variance);
 
