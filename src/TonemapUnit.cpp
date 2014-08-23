@@ -69,7 +69,7 @@ void TonemapUnit::Tonemap(const GatherUnit& gatherUnit)
 float TonemapUnit::FindExposure(const GatherUnit& gatherUnit) const
 {
   float n = static_cast<float>(imageWidth * imageHeight);
-  auto tristimuli = gatherUnit.tristimulusBuffer;
+  auto& tristimuli = gatherUnit.tristimulusBuffer;
 
   // Calculate the average intensity. Calculations are based
   // on the CIE Y component, which corresponds to lightness.
@@ -81,8 +81,7 @@ float TonemapUnit::FindExposure(const GatherUnit& gatherUnit) const
                   [](float a, Vector3 cie) { return a + cie.y * cie.y; }) / n;
 
   float variance = sqrMean - mean * mean;
-  float standardDeviation = std::sqrt(variance);
 
   // The desired 'white' is one standard deviation above average
-  return mean + standardDeviation;
+  return mean + std::sqrt(variance);
 }
