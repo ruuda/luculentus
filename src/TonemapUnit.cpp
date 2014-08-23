@@ -18,6 +18,7 @@
 
 #include <cmath>
 #include <algorithm>
+#include <numeric>
 #include "GatherUnit.h"
 #include "SRgb.h"
 
@@ -67,41 +68,21 @@ void TonemapUnit::Tonemap(const GatherUnit& gatherUnit)
 
 float TonemapUnit::FindExposure(const GatherUnit& gatherUnit) const
 {
-  // Calculate the average intensity
-  float sum = 0.0f;
-  for (int x = 0; x < imageWidth; x++)
-  {
-    float intermediateSum = 0.0f;
-    for (int y = 0; y < imageHeight; y++)
-    {
-      // Calculations are based on the CIE Y value,
-      // which corresponds to lightness.
-      Vector3 cie = gatherUnit.tristimulusBuffer[y * imageWidth + x];
-      intermediateSum += cie.y;
-    }
-    sum += intermediateSum / imageHeight;
-  }
+  float n = static_cast<float>(imageWidth * imageHeight);
+  auto tristimuli = gatherUnit.tristimulusBuffer;
 
-  float average = sum / imageWidth;
+  // Calculate the average intensity. Calculations are based
+  // on the CIE Y component, which corresponds to lightness.
+  float mean = std::accumulate(tristimuli.begin(), tristimuli.end(), 0.0f,
+               [](float a, Vector3 cie) { return a + cie.y; }) / n;
 
-  // Then calculate the standard deviation
-  sum = 0.0f;
-  for (int x = 0; x < imageWidth; x++)
-  {
-    float intermediateSum = 0.0f;
-    for (int y = 0; y < imageHeight; y++)
-    {
-      Vector3 cie = gatherUnit.tristimulusBuffer[y * imageWidth + x];
-      intermediateSum += cie.y * cie.y;
-    }
-    sum += intermediateSum / imageHeight;
-  }
+  // Then compute the standard deviation.
+  float sqrMean = std::accumulate(tristimuli.begin(), tristimuli.end(), 0.0f,
+                  [](float a, Vector3 cie) { return a + cie.y * cie.y; }) / n;
 
-  float averageSqr = sum / imageWidth;
-  float variance = averageSqr - average * average;
+  float variance = sqrMean - mean * mean;
   float standardDeviation = std::sqrt(variance);
 
   // The desired 'white' is one standard deviation above average
-  float maxIntensity = average + standardDeviation;
-  return maxIntensity;
+  return mean + standardDeviation;
 }
