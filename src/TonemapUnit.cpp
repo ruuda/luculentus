@@ -32,6 +32,11 @@ TonemapUnit::TonemapUnit(const int width, const int height)
   rgbBuffer.resize(imageWidth * imageHeight * 3, 0);
 }
 
+float clamp(const float x)
+{
+  return std::min(1.0f, std::max(0.0f, x));
+}
+
 void TonemapUnit::Tonemap(const GatherUnit& gatherUnit)
 {
   float maxIntensity = FindExposure(gatherUnit);
@@ -49,19 +54,16 @@ void TonemapUnit::Tonemap(const GatherUnit& gatherUnit)
 
       // Convert to sRGB.
       Vector3 rgb = SRgb::Transform(cie);
-      float r = rgb.x;
-      float g = rgb.y;
-      float b = rgb.z;
 
-      // Clamp colours to saturate
-      r = std::min<float>(1.0f, std::max<float>(0.0f, r));
-      g = std::min<float>(1.0f, std::max<float>(0.0f, g));
-      b = std::min<float>(1.0f, std::max<float>(0.0f, b));
+      // Clamp colours to saturate.
+      float r = clamp(rgb.x);
+      float g = clamp(rgb.y);
+      float b = clamp(rgb.z);
 
       // Convert to integers
-      rgbBuffer[y * imageWidth * 3 + x * 3 + 0] = static_cast<std::uint8_t>(std::min<int>(static_cast<int>(r * 255), 255));
-      rgbBuffer[y * imageWidth * 3 + x * 3 + 1] = static_cast<std::uint8_t>(std::min<int>(static_cast<int>(g * 255), 255));
-      rgbBuffer[y * imageWidth * 3 + x * 3 + 2] = static_cast<std::uint8_t>(std::min<int>(static_cast<int>(b * 255), 255));
+      rgbBuffer[y * imageWidth * 3 + x * 3 + 0] = static_cast<std::uint8_t>(r * 255);
+      rgbBuffer[y * imageWidth * 3 + x * 3 + 1] = static_cast<std::uint8_t>(g * 255);
+      rgbBuffer[y * imageWidth * 3 + x * 3 + 2] = static_cast<std::uint8_t>(b * 255);
     }
   }
 }
