@@ -40,10 +40,8 @@ void PlotUnit::Clear()
 void PlotUnit::Plot(const TraceUnit& traceUnit)
 {
   // Loop trough every mapped photon, and plot it.
-  for (int i = 0; i < traceUnit.numberOfMappedPhotons; i++)
+  for (auto mp : traceUnit.mappedPhotons)
   {
-    const MappedPhoton& mp = traceUnit.mappedPhotons[i];
-
     PlotPhoton(mp.x, mp.y, mp.wavelength, mp.probability);
   }
 }
