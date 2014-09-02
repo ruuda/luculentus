@@ -20,7 +20,7 @@
 
 namespace Luculentus
 {
-  /// Helper class for the CIE 1931 colour space
+  /// Helper class for the CIE 1964 colour space
   class Cie1964
   {
     private:
