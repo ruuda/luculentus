@@ -1,5 +1,5 @@
 // Luculentus -- Proof of concept spectral path tracer
-// Copyright (C) 2012-2013  Ruud van Asseldonk
+// Copyright (C) 2012-2014  Ruud van Asseldonk
 // 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -20,8 +20,7 @@
 
 using namespace Luculentus;
 
-void Cie1964::GetTristimulus(float wavelength, float& cieX, float& cieY,
-                             float& cieZ)
+Vector3 Cie1964::GetTristimulus(float wavelength)
 {
   float indexf    = (wavelength - 380.0f) / 5.0f;
   short index     = static_cast<short>(std::floor(indexf));
@@ -29,32 +28,30 @@ void Cie1964::GetTristimulus(float wavelength, float& cieX, float& cieY,
 
   if (index < -1 || index > 80) // Wavelength is not in visible spectrum
   {
-    cieX = 0.0f;
-    cieY = 0.0f;
-    cieZ = 0.0f;
-    return;
+    return ZeroVector3();
   }
 
   if (index == -1) // No interpolation possible
   {
-    cieX = x[0] * (remainder);
-    cieY = y[0] * (remainder);
-    cieZ = z[0] * (remainder);
-    return;
+    float cieX = x[0] * (remainder);
+    float cieY = y[0] * (remainder);
+    float cieZ = z[0] * (remainder);
+    return MakeVector3(cieX, cieY, cieZ);
   }
 
   if (index == 80) // No interpolation possible
   {
-    cieX = x[80] * (1.0f - remainder);
-    cieY = y[80] * (1.0f - remainder);
-    cieZ = z[80] * (1.0f - remainder);
-    return;
+    float cieX = x[80] * (1.0f - remainder);
+    float cieY = y[80] * (1.0f - remainder);
+    float cieZ = z[80] * (1.0f - remainder);
+    return MakeVector3(cieX, cieY, cieZ);
   }
 
   // Interpolate between two measurements
-  cieX = x[index] * (1.0f - remainder) + x[index + 1] * remainder;
-  cieY = y[index] * (1.0f - remainder) + y[index + 1] * remainder;
-  cieZ = z[index] * (1.0f - remainder) + z[index + 1] * remainder;
+  float cieX = x[index] * (1.0f - remainder) + x[index + 1] * remainder;
+  float cieY = y[index] * (1.0f - remainder) + y[index + 1] * remainder;
+  float cieZ = z[index] * (1.0f - remainder) + z[index + 1] * remainder;
+  return MakeVector3(cieX, cieY, cieZ);
 }
 
 // Data obtained from http://cvrl.ioo.ucl.ac.uk/index.htm
