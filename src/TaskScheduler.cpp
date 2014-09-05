@@ -61,8 +61,8 @@ TaskScheduler::TaskScheduler(const int numberOfThreads, const int width,
   tonemapUnit = std::make_shared<TonemapUnit>(width, height);
 
   // Everything is available at this point
-  for (size_t i = 0; i < numberOfTraceUnits; i++) availableTraceUnits.push(i);
-  for (size_t i = 0; i < numberOfPlotUnits; i++) availablePlotUnits.push(i);
+  for (int i = 0; i < numberOfTraceUnits; i++) availableTraceUnits.push(i);
+  for (int i = 0; i < numberOfPlotUnits; i++) availablePlotUnits.push(i);
   gatherUnitAvailable = true;
   tonemapUnitAvailable = true;
 
