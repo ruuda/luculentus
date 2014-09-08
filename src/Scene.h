@@ -37,9 +37,8 @@ namespace Luculentus
       /// effects like motion blur and zoom blur.
       std::function<Camera (const float)> GetCameraAtTime;
 
-      /// Intersects the specified ray with the scene.
-      /// If an object is intersected, its material is returned,
-      /// and the intersection is set.
+      /// Intersects the specified ray with the scene. If an object is
+      /// intersected, it is returned, and the intersection is set.
       const Object* Intersect(Ray ray, Intersection& intersection) const;
   };
 }
