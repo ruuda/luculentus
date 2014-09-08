@@ -42,23 +42,22 @@ TaskScheduler::TaskScheduler(const int numberOfThreads, const int width,
   unsigned long randomSeed = static_cast<unsigned long>(std::time(nullptr));
   for (size_t i = 0; i < numberOfTraceUnits; i++)
   {
-    traceUnits.push_back(std::make_shared<TraceUnit>(scene, randomSeed,
-                                                     width, height));
+    traceUnits.emplace_back(scene, randomSeed, width, height);
     // Pick a different random seed for the next trace unit
-    randomSeed = traceUnits[i]->monteCarloUnit.randomEngine();
+    randomSeed = traceUnits[i].monteCarloUnit.randomEngine();
   }
 
   // Then build the plot units
   for (size_t i = 0; i < numberOfPlotUnits; i++)
   {
-    plotUnits.push_back(std::make_shared<PlotUnit>(width, height));
+    plotUnits.emplace_back(width, height);
   }
 
   // There must be one gather unit
-  gatherUnit = std::make_shared<GatherUnit>(width, height);
+  gatherUnit = std::unique_ptr<GatherUnit>(new GatherUnit(width, height));
 
   // And finally the tonemap unit
-  tonemapUnit = std::make_shared<TonemapUnit>(width, height);
+  tonemapUnit = std::unique_ptr<TonemapUnit>(new TonemapUnit(width, height));
 
   // Everything is available at this point
   for (int i = 0; i < numberOfTraceUnits; i++) availableTraceUnits.push(i);

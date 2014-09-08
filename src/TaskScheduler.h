@@ -89,16 +89,16 @@ namespace Luculentus
       size_t numberOfPlotUnits;
 
       /// An array of all TraceUnits in the tracer.
-      std::vector<std::shared_ptr<TraceUnit>> traceUnits;
+      std::vector<TraceUnit> traceUnits;
 
       /// An array of all PlotUnits in the tracer.
-      std::vector<std::shared_ptr<PlotUnit>> plotUnits;
+      std::vector<PlotUnit> plotUnits;
 
       /// The single GatherUnit.
-      std::shared_ptr<GatherUnit>  gatherUnit;
+      std::unique_ptr<GatherUnit>  gatherUnit;
 
       /// The single TonemapUnit.
-      std::shared_ptr<TonemapUnit> tonemapUnit;
+      std::unique_ptr<TonemapUnit> tonemapUnit;
 
       /// Creates a new task scheduler, that will render the specified
       /// scene to a canvas of specified size.

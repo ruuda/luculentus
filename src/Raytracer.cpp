@@ -133,7 +133,7 @@ void Raytracer::ExecuteSleepTask(const Task)
 void Raytracer::ExecuteTraceTask(const Task task)
 {
   // Let the trace unit do all the work, then the task is done
-  taskScheduler.traceUnits[task.unit]->Render();
+  taskScheduler.traceUnits[task.unit].Render();
 }
 
 void Raytracer::ExecutePlotTask(Task task)
@@ -144,10 +144,10 @@ void Raytracer::ExecutePlotTask(Task task)
     // Take one trace unit
     int index = task.otherUnits.back();
     task.otherUnits.pop_back();
-    auto traceUnit = taskScheduler.traceUnits[index];
+    auto& traceUnit = taskScheduler.traceUnits[index];
 
     // And plot it using the correct plot unit
-    taskScheduler.plotUnits[task.unit]->Plot(*traceUnit);
+    taskScheduler.plotUnits[task.unit].Plot(traceUnit);
   }
 }
 
@@ -159,14 +159,14 @@ void Raytracer::ExecuteGatherTask(Task task)
     // Take one plot unit
     int index = task.otherUnits.back();
     task.otherUnits.pop_back();
-    auto plotUnit = taskScheduler.plotUnits[index];
+    auto& plotUnit = taskScheduler.plotUnits[index];
 
     // Accumulate the plotted data into the gather unit
-    taskScheduler.gatherUnit->Accumulate(*plotUnit);
+    taskScheduler.gatherUnit->Accumulate(plotUnit);
 
     // And then clear the plot unit,
     // so the data does not get accumulated twice
-    plotUnit->Clear();
+    plotUnit.Clear();
   }
 }
 
