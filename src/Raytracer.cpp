@@ -180,47 +180,39 @@ void Raytracer::ExecuteTonemapTask(const Task)
                               &taskScheduler.tonemapUnit->rgbBuffer[0]);
 }
 
-/* Begin Huge Monolithic Scene Initialisation Function */
+// Begin Huge Monolithic Scene Initialisation Function
 
 void Raytracer::BuildScene()
 {
-  Material* grey  = new DiffuseGreyMaterial(0.8f);
-  Material* red   = new DiffuseColouredMaterial(0.9f, 660.0f, 60.0f);
-  Material* green = new DiffuseColouredMaterial(0.9f, 550.0f, 40.0f);
-  Material* blue  = new DiffuseColouredMaterial(0.5f, 470.0f, 25.0f);
-  Material* glossLow  = new GlossyMirrorMaterial(0.1f);
-  RefractiveMaterial* glass = new Sf10GlassMaterial();
-  SoapBubbleMaterial* soap  = new SoapBubbleMaterial();
-
-  EmissiveMaterial* sunEmissive  = new BlackBodyMaterial(6504.0f, 1.0f);
-  EmissiveMaterial* sky1Emissive = new BlackBodyMaterial(7600.0f, 0.6f);
-  EmissiveMaterial* sky2Emissive = new BlackBodyMaterial(5000.0f, 0.6f);
-
   // Sphere in the centre
   const float sunRadius = 5.0f;
   Vector3 sunPosition = {  0.0f,  0.0f,  0.0f };
-  Sphere* sunSphere   = new Sphere(sunPosition, sunRadius);
-  Object  sun         = { sunSphere, nullptr, sunEmissive };
+  auto sunSphere      = std::make_shared<Sphere>(sunPosition, sunRadius);
+  auto sunEmissive    = std::make_shared<BlackBodyMaterial>(6504.0f, 1.0f);
+  Object sun          = { sunSphere, nullptr, sunEmissive };
   scene.objects.push_back(sun);
 
   // Floor paraboloid
   Vector3 floorNormal   = {  0.0f,  0.0f, -1.0f };
   Vector3 floorPosition = {  0.0f,  0.0f, -sunRadius };
-  Paraboloid* floorParaboloid = new Paraboloid(floorNormal, floorPosition, sunRadius * sunRadius);
+  auto floorParaboloid  = std::make_shared<Paraboloid>(floorNormal, floorPosition, sunRadius * sunRadius);
+  auto grey             = std::make_shared<DiffuseGreyMaterial>(0.8f);
   Object floor          = { floorParaboloid, grey, nullptr };
   scene.objects.push_back(floor);
 
   // Floorwall paraboloid (left)
   Vector3 wallLeftNormal   = {  0.0f,  0.0f,  1.0f };
   Vector3 wallLeftPosition = {  1.0f,  0.0f, -sunRadius * sunRadius };
-  Paraboloid* wallLeftParaboloid = new Paraboloid(wallLeftNormal, wallLeftPosition, sunRadius * sunRadius);
+  auto wallLeftParaboloid  = std::make_shared<Paraboloid>(wallLeftNormal, wallLeftPosition, sunRadius * sunRadius);
+  auto green               = std::make_shared<DiffuseColouredMaterial>(0.9f, 550.0f, 40.0f);
   Object wallLeft          = { wallLeftParaboloid, green, nullptr };
   scene.objects.push_back(wallLeft);
 
   // Floorwall paraboloid (right)
   Vector3 wallRightNormal   = {  0.0f,  0.0f,  1.0f };
   Vector3 wallRightPosition = { -1.0f,  0.0f, -sunRadius * sunRadius };
-  Paraboloid* wallRightParaboloid = new Paraboloid(wallRightNormal, wallRightPosition, sunRadius * sunRadius);
+  auto wallRightParaboloid  = std::make_shared<Paraboloid>(wallRightNormal, wallRightPosition, sunRadius * sunRadius);
+  auto red                  = std::make_shared<DiffuseColouredMaterial>(0.9f, 660.0f, 60.0f);
   Object wallRight          = { wallRightParaboloid, red, nullptr };
   scene.objects.push_back(wallRight);
 
@@ -228,20 +220,23 @@ void Raytracer::BuildScene()
   const float sky1Radius = 5.0f;
   const float skyHeight = 30.0f;
   Vector3 sky1Position = {  -sunRadius,  0.0f,  skyHeight };
-  Circle* sky1Circle   = new Circle(-floorNormal, sky1Position, sky1Radius);
+  auto sky1Circle      = std::make_shared<Circle>(-floorNormal, sky1Position, sky1Radius);
+  auto sky1Emissive    = std::make_shared<BlackBodyMaterial>(7600.0f, 0.6f);
   Object  sky1         = { sky1Circle, nullptr, sky1Emissive };
   scene.objects.push_back(sky1);
 
   // Sky light 2
   const float sky2Radius = 15.0f;
   Vector3 sky2Position = {  -sunRadius * 0.5f,  sunRadius * 2.0f + sky2Radius,  skyHeight };
-  Circle* sky2Circle   = new Circle(-floorNormal, sky2Position, sky2Radius);
+  auto sky2Circle      = std::make_shared<Circle>(-floorNormal, sky2Position, sky2Radius);
+  auto sky2Emissive    = std::make_shared<BlackBodyMaterial>(5000.0f, 0.6f);
   Object  sky2         = { sky2Circle, nullptr, sky2Emissive };
   scene.objects.push_back(sky2);
 
   // Ceiling plane (for more interesting light)
   Vector3 ceilingPosition = {  0.0f,  0.0f, skyHeight * 2.0f };
-  Plane* ceilingPlane     = new Plane(floorNormal, ceilingPosition);
+  auto ceilingPlane       = std::make_shared<Plane>(floorNormal, ceilingPosition);
+  auto blue               = std::make_shared<DiffuseColouredMaterial>(0.5f, 470.0f, 25.0f);
   Object ceiling          = { ceilingPlane, blue, nullptr };
   scene.objects.push_back(ceiling);
 
@@ -252,52 +247,54 @@ void Raytracer::BuildScene()
   const int firstSeed = static_cast<int>((sunRadius / seedScale + 1) * (sunRadius / seedScale + 1) + 0.5f);
   const int seeds = 100;
   for (int i = firstSeed; i < firstSeed + seeds; i++)
-  {    
+  {
     const float phi = static_cast<float>(i) * gamma;
     const float r   = std::sqrt(static_cast<float>(i)) * seedScale;
     Vector3 position =
-    { 
+    {
       std::cos(phi) * r,
       std::sin(phi) * r,
       (r - sunRadius) * -0.5f
     };
-    position = position + sunPosition;
-    Sphere* sphere = new Sphere(position, seedSize);
-    Material* mat = new DiffuseColouredMaterial(0.9f, static_cast<float>(i - firstSeed) / seeds * 130.0f + 600.0f, 60.0f);
+    position      = position + sunPosition;
+    auto sphere   = std::make_shared<Sphere>(position, seedSize);
+    auto mat      = std::make_shared<DiffuseColouredMaterial>(0.9f, static_cast<float>(i - firstSeed) / seeds * 130.0f + 600.0f, 60.0f);
     Object object = { sphere, mat, nullptr };
     scene.objects.push_back(object);
   }
 
   // Seeds in between
+  auto glossLow = std::make_shared<GlossyMirrorMaterial>(0.1f);
   for (int i = firstSeed; i < firstSeed + seeds; i++)
-  {    
+  {
     const float phi = (static_cast<float>(i) + 0.5f) * gamma;
     const float r   = std::sqrt(static_cast<float>(i) + 0.5f) * seedScale;
     Vector3 position =
-    { 
+    {
       std::cos(phi) * r,
       std::sin(phi) * r,
       (r - sunRadius) * -0.25f
     };
-    position = position + sunPosition;
-    Sphere* sphere = new Sphere(position, seedSize * 0.5f);
+    position      = position + sunPosition;
+    auto sphere   = std::make_shared<Sphere>(position, seedSize * 0.5f);
     Object object = { sphere, glossLow, nullptr };
     scene.objects.push_back(object);
   }
 
   // Soap bubbles above
+  auto soap = std::make_shared<SoapBubbleMaterial>();
   for (int i = firstSeed / 2; i < firstSeed + seeds; i++)
-  {    
-    const float phi = -static_cast<float>(i) * gamma;
-    const float r   = std::sqrt(static_cast<float>(i)) * seedScale * 1.5f;
+  {
+    const float phi  = -static_cast<float>(i) * gamma;
+    const float r    = std::sqrt(static_cast<float>(i)) * seedScale * 1.5f;
     Vector3 position =
-    { 
+    {
       std::cos(phi) * r,
       std::sin(phi) * r,
       (r - sunRadius) * 1.5f + sunRadius * 2.0f
     };
-    position = position + sunPosition;
-    Sphere* sphere = new Sphere(position, seedSize * (0.5f + std::sqrt(static_cast<float>(i)) * 0.2f));
+    position      = position + sunPosition;
+    auto sphere   = std::make_shared<Sphere>(position, seedSize * (0.5f + std::sqrt(static_cast<float>(i)) * 0.2f));
     Object object = { sphere, soap, nullptr };
     scene.objects.push_back(object);
   }
@@ -307,6 +304,7 @@ void Raytracer::BuildScene()
   const float prismAngle = static_cast<float>(pi * 2.0f / prisms);
   const float prismRadius = 17.0f;
   const float prismHeight = 8.0;
+  auto glass = std::make_shared<Sf10GlassMaterial>();
   for (int i = 0; i < prisms; i++)
   {
     float phi = static_cast<float>(i) * prismAngle;
@@ -326,7 +324,7 @@ void Raytracer::BuildScene()
       normal = -intersection.normal; // Parabola focus is on the other side of the paraboloid
       position = intersection.position + normal * 2.0f;
     
-      HexagonalPrism* prism = new HexagonalPrism(MakeHexagonalPrism(normal, position, 3.0f, 1.0f, phi, prismHeight));
+      auto prism = std::make_shared<HexagonalPrism>(MakeHexagonalPrism(normal, position, 3.0f, 1.0f, phi, prismHeight));
       Object object = { prism, glass, nullptr };
       scene.objects.push_back(object);
     }
@@ -348,7 +346,7 @@ void Raytracer::BuildScene()
       normal = -intersection.normal; // Parabola focus is on the other side of the paraboloid
       position = intersection.position + normal * 3.0f;
     
-      HexagonalPrism* prism = new HexagonalPrism(MakeHexagonalPrism(
+      auto prism = std::make_shared<HexagonalPrism>(MakeHexagonalPrism(
         normal, position, 3.0f, 1.0f, phi + static_cast<float>(pi) * 0.5f, prismHeight * 1.5f));
       Object object = { prism, glass, nullptr };
       scene.objects.push_back(object);
@@ -384,13 +382,6 @@ void Raytracer::BuildScene()
 
     return camera;
   };
-
-  // Yes, this function leaks memory.
-  // All those objects constructed will never be deleted.
-  // Except when the program ends.
-  // And all memory is freed anyway.
-  // Which is exactly what the destructor would do,
-  // but now it is done automatically.
 }
 
-/* End Huge Monolithic Scene Initialisation Function */
+// End Huge Monolithic Scene Initialisation Function
