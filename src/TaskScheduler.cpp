@@ -60,8 +60,8 @@ TaskScheduler::TaskScheduler(const int numberOfThreads, const int width,
   tonemapUnit = std::unique_ptr<TonemapUnit>(new TonemapUnit(width, height));
 
   // Everything is available at this point
-  for (int i = 0; i < numberOfTraceUnits; i++) availableTraceUnits.push(i);
-  for (int i = 0; i < numberOfPlotUnits; i++) availablePlotUnits.push(i);
+  for (int i = 0; i < (int)numberOfTraceUnits; i++) availableTraceUnits.push(i);
+  for (int i = 0; i < (int)numberOfPlotUnits; i++) availablePlotUnits.push(i);
   gatherUnitAvailable = true;
   tonemapUnitAvailable = true;
 
