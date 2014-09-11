@@ -21,10 +21,10 @@ using namespace Luculentus;
 
 int main(int argc, char** argv)
 {
-  // Build the UI to display the rendered image
+  // Build the UI to display the rendered image.
   UserInterface ui(argc, argv);
 
-  // Create the path tracer itself
+  // Create the path tracer itself.
   Raytracer raytracer(ui);
 
   // Display a black image to start with.
@@ -34,10 +34,10 @@ int main(int argc, char** argv)
   // Begin rendering with all threads
   raytracer.StartRendering();
 
-  // Run the UI event loop, it returns when the window is closed
+  // Run the UI event loop, it returns when the window is closed.
   ui.Run();
 
-  // And when the UI is closed, stop rendering
+  // And when the UI is closed, stop rendering.
   raytracer.StopRendering();
 
   return 0;
