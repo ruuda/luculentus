@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <cstdint>
-#include <memory>
 #include "UserInterface.h"
 #include "Raytracer.h"
 
@@ -29,18 +27,15 @@ int main(int argc, char** argv)
   // Create the path tracer itself
   Raytracer raytracer(ui);
 
-  // Display a black image to start with
-  std::uint8_t* blackBuffer = new std::uint8_t[1280 * 720 * 3];
-  std::uninitialized_fill_n(blackBuffer, 0, 1280 * 720 * 3);
-  ui.DisplayImage(1280, 720, blackBuffer);
+  // Display a black image to start with.
+  std::vector<std::uint8_t> blackBuffer(1280 * 720 * 3, 0);
+  ui.DisplayImage(1280, 720, &blackBuffer[0]);
 
   // Begin rendering with all threads
   raytracer.StartRendering();
 
   // Run the UI event loop, it returns when the window is closed
   ui.Run();
-
-  delete [] blackBuffer;
 
   // And when the UI is closed, stop rendering
   raytracer.StopRendering();
