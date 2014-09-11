@@ -29,7 +29,7 @@ namespace Luculentus
     public:
 
       /// All the renderable objects in the scene.
-      std::vector<Object> objects;
+      std::vector<const Object> objects;
 
       /// A function that returns the camera through which the scene
       /// will be seen. The function takes one parameter, the time (in
