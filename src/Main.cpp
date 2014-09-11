@@ -27,15 +27,12 @@ int main(int argc, char** argv)
   UserInterface ui(argc, argv);
 
   // Create the path tracer itself
-  Raytracer raytracer;
+  Raytracer raytracer(ui);
 
   // Display a black image to start with
   std::uint8_t* blackBuffer = new std::uint8_t[1280 * 720 * 3];
   std::uninitialized_fill_n(blackBuffer, 0, 1280 * 720 * 3);
   ui.DisplayImage(1280, 720, blackBuffer);
-
-  // Tell the tracer what the UI is, so it can display things
-  raytracer.SetUserInterface(&ui);
 
   // Begin rendering with all threads
   raytracer.StartRendering();

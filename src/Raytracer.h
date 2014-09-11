@@ -29,13 +29,9 @@ namespace Luculentus
     public:
 
       /// Creates a new raytracer
-      Raytracer();
+      Raytracer(UserInterface& ui);
 
       ~Raytracer();
-
-      /// Sets the user interface through which the image will be 
-      /// displayed
-      void SetUserInterface(UserInterface* ui);
 
       /// Starts rendering on separate threads
       void StartRendering();
@@ -71,7 +67,7 @@ namespace Luculentus
       TaskScheduler taskScheduler;
       
       /// The UI which displays the render result (not owned)
-      UserInterface* userInterface;
+      UserInterface& userInterface;
 
       /// The scene which will be rendered
       Scene scene;

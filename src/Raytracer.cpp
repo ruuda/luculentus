@@ -38,8 +38,9 @@ const int Raytracer::numberOfThreads =
 const int Raytracer::numberOfThreads = 1; 
 #endif
 
-Raytracer::Raytracer()
+Raytracer::Raytracer(UserInterface& ui)
   : taskScheduler(numberOfThreads, imageWidth, imageHeight, &scene)
+  , userInterface(ui)
 {
   workerThreads = new std::thread[numberOfThreads];
 
@@ -50,11 +51,6 @@ Raytracer::Raytracer()
 Raytracer::~Raytracer()
 {
   delete [] workerThreads;
-}
-
-void Raytracer::SetUserInterface(UserInterface* ui)
-{
-  userInterface = ui;
 }
 
 void Raytracer::StartRendering()
@@ -176,8 +172,8 @@ void Raytracer::ExecuteTonemapTask(const Task)
   taskScheduler.tonemapUnit->Tonemap(*taskScheduler.gatherUnit);
 
   // And then display the tonemapped image on the screen
-  userInterface->DisplayImage(imageWidth, imageHeight,
-                              &taskScheduler.tonemapUnit->rgbBuffer[0]);
+  userInterface.DisplayImage(imageWidth, imageHeight,
+                             &taskScheduler.tonemapUnit->rgbBuffer[0]);
 }
 
 // Begin Huge Monolithic Scene Initialisation Function
