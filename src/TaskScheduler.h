@@ -109,7 +109,7 @@ namespace Luculentus
       /// The task scheduler will find some more work to do,
       /// and return it to the caller.
       /// This method is thread-safe.
-      Task GetNewTask(const Task completeTask);
+      Task GetNewTask(const Task completedTask);
 
     private:
 
