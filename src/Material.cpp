@@ -16,6 +16,7 @@
 
 #include "Material.h"
 
+#include <algorithm>
 #include "MonteCarloUnit.h"
 #include "Constants.h"
 
