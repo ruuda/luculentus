@@ -42,15 +42,8 @@ Raytracer::Raytracer(UserInterface& ui)
   : taskScheduler(numberOfThreads, imageWidth, imageHeight, &scene)
   , userInterface(ui)
 {
-  workerThreads = new std::thread[numberOfThreads];
-
   // Set up a scene to render
   BuildScene();
-}
-
-Raytracer::~Raytracer()
-{
-  delete [] workerThreads;
 }
 
 void Raytracer::StartRendering()
@@ -77,13 +70,13 @@ void Raytracer::RunMain()
   for (int i = 0; i < numberOfThreads; i++)
   {
     // Execute the RunWorker method on the worker thread
-    workerThreads[i] = std::thread(&Raytracer::RunWorker, this);
+    workerThreads.emplace_back(&Raytracer::RunWorker, this);
   }
 
   // And then wait for all threads to finish
-  for (int i = 0; i < numberOfThreads; i++)
+  for (auto& thread : workerThreads)
   {
-    workerThreads[i].join();
+    thread.join();
   }
 }
 

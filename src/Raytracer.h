@@ -31,8 +31,6 @@ namespace Luculentus
       /// Creates a new raytracer
       Raytracer(UserInterface& ui);
 
-      ~Raytracer();
-
       /// Starts rendering on separate threads
       void StartRendering();
 
@@ -61,7 +59,7 @@ namespace Luculentus
       std::thread mainThread;
 
       /// The threads that execute the tasks
-      std::thread* workerThreads;
+      std::vector<std::thread> workerThreads;
 
       /// The TaskScheduler responsible for dividing work across threads.
       TaskScheduler taskScheduler;
