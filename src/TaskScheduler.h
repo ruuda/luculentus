@@ -20,14 +20,14 @@
 #include <memory>
 #include <mutex>
 #include <queue>
+#include "GatherUnit.h"
+#include "PlotUnit.h"
 #include "Task.h"
+#include "TonemapUnit.h"
+#include "TraceUnit.h"
 
 namespace Luculentus
 {
-  class TraceUnit;
-  class PlotUnit;
-  class GatherUnit;
-  class TonemapUnit;
   class Scene;
   class UserInterface;
 

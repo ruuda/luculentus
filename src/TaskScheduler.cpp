@@ -18,10 +18,6 @@
 
 #include <ctime>
 #include <iostream>
-#include "TraceUnit.h"
-#include "PlotUnit.h"
-#include "GatherUnit.h"
-#include "TonemapUnit.h"
 
 using namespace Luculentus;
 
