@@ -1,5 +1,5 @@
 // Luculentus -- Proof of concept spectral path tracer
-// Copyright (C) 2012  Ruud van Asseldonk
+// Copyright (C) 2012, 2014  Ruud van Asseldonk
 // 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@ namespace Luculentus
       MonteCarloUnit monteCarloUnit;
 
       /// The scene that will be rendered.
-      const Scene* const scene;
+      const Scene& scene;
 
       /// The aspect ratio of the image that will be rendered
       const float aspectRatio;
@@ -54,7 +54,7 @@ namespace Luculentus
 
       /// Creates a new work unit that renders the specified scene,
       /// initialized with the specified random seed
-      TraceUnit(const Scene* const scn, const unsigned long randomSeed,
+      TraceUnit(const Scene& scn, const unsigned long randomSeed,
                 const int width, const int height);
 
       /// Fills the buffer of mapped photons once.

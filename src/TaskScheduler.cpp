@@ -22,7 +22,7 @@
 using namespace Luculentus;
 
 TaskScheduler::TaskScheduler(const int numberOfThreads, const int width,
-                             const int height, const Scene* scene)
+                             const int height, const Scene& scene)
 {
   // More trace units than threads seems sensible,
   // but less plot units is acceptable,

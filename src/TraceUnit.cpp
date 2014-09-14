@@ -20,7 +20,7 @@
 
 using namespace Luculentus;
 
-TraceUnit::TraceUnit(const Scene* const scn,
+TraceUnit::TraceUnit(const Scene& scn,
                      const unsigned long randomSeed, const int width,
                      const int height)
   : monteCarloUnit(randomSeed)
@@ -58,7 +58,7 @@ float TraceUnit::RenderCameraRay(const float x, const float y,
   const float t = monteCarloUnit.GetUnit();
 
   // Get the camera at that time
-  const Camera camera = scene->GetCameraAtTime(t);
+  const Camera camera = scene.GetCameraAtTime(t);
 
   // Create a camera ray for the specified pixel and wavelength
   Ray ray = camera.GetRay(x, y, wavelength, monteCarloUnit);
@@ -82,7 +82,7 @@ float TraceUnit::RenderRay(Ray ray)
   {
     // Intersect the ray with the scene
     Intersection intersection;
-    const Object* object = scene->Intersect(ray, intersection);
+    const Object* object = scene.Intersect(ray, intersection);
 
     // If nothing was intersected, the path ends,
     // and the only thing left is the utter darkness of The Void

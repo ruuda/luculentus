@@ -39,11 +39,11 @@ const int Raytracer::numberOfThreads = 1;
 #endif
 
 Raytracer::Raytracer(UserInterface& ui)
-  : taskScheduler(numberOfThreads, imageWidth, imageHeight, &scene)
+	: scene(BuildScene())
+  , taskScheduler(numberOfThreads, imageWidth, imageHeight, scene)
   , userInterface(ui)
 {
-  // Set up a scene to render
-  BuildScene();
+
 }
 
 void Raytracer::StartRendering()
@@ -171,8 +171,10 @@ void Raytracer::ExecuteTonemapTask(const Task)
 
 // Begin Huge Monolithic Scene Initialisation Function
 
-void Raytracer::BuildScene()
+Scene Luculentus::BuildScene()
 {
+  Scene scene;
+
   // Sphere in the centre
   const float sunRadius = 5.0f;
   Vector3 sunPosition = {  0.0f,  0.0f,  0.0f };
@@ -371,6 +373,8 @@ void Raytracer::BuildScene()
 
     return camera;
   };
+
+  return scene;
 }
 
 // End Huge Monolithic Scene Initialisation Function

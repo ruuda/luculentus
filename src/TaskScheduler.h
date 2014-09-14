@@ -103,7 +103,7 @@ namespace Luculentus
       /// Creates a new task scheduler, that will render the specified
       /// scene to a canvas of specified size.
       TaskScheduler(const int numberOfThreads, const int width,
-                    const int height, const Scene* scene);
+                    const int height, const Scene& scene);
 
       /// Notifies the task scheduler that a task is complete.
       /// The task scheduler will find some more work to do,

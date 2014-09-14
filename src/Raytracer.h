@@ -70,9 +70,6 @@ namespace Luculentus
       /// The scene which will be rendered
       Scene scene;
 
-      /// Initializes the scene with objects
-      void BuildScene();
-
       /// Method executed on the main thread
       void RunMain();
 
@@ -98,4 +95,7 @@ namespace Luculentus
       /// Executes a 'Tonemap' task, and displays the result in the UI.
       void ExecuteTonemapTask(const Task task);
    };
+
+  /// Initializes the scene with objects.
+  Scene BuildScene();
 }
