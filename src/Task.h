@@ -22,31 +22,30 @@ namespace Luculentus
 {
   struct Task
   {
-    public:
-      enum TaskType
-      {
-        /// Do nothing, wait a while
-        Sleep,
-        /// Trace a certain number of rays, and store MappedPhotons.
-        Trace,
-        /// Plot all intermediate MappedPhotons
-        /// to a screen of CIE XYZ values.
-        Plot,
-        /// Combine all CIE XYZ screens,
-        /// and accumulate them into the final image.
-        Gather,
-        /// Convert and tonemap the CIE XYZ values
-        /// to sRGB and display the image.
-        Tonemap
-      }
-      /// The type of thing that should be done.
-      type;
+    enum TaskType
+    {
+      /// Do nothing, wait a while
+      Sleep,
+      /// Trace a certain number of rays, and store MappedPhotons.
+      Trace,
+      /// Plot all intermediate MappedPhotons
+      /// to a screen of CIE XYZ values.
+      Plot,
+      /// Combine all CIE XYZ screens,
+      /// and accumulate them into the final image.
+      Gather,
+      /// Convert and tonemap the CIE XYZ values
+      /// to sRGB and display the image.
+      Tonemap
+    }
+    /// The type of thing that should be done.
+    type;
 
-      /// The index of the unit to use to execute the task (for trace and plot tasks).
-      int unit;
+    /// The index of the unit to use to execute the task (for trace and plot tasks).
+    int unit;
 
-      /// The units that should be processed, e.g. for a Plot task, this
-      /// contains the indices of the TraceUnits that must be plotted.
-      std::vector<int> otherUnits;
+    /// The units that should be processed, e.g. for a Plot task, this
+    /// contains the indices of the TraceUnits that must be plotted.
+    std::vector<int> otherUnits;
   };
 }
