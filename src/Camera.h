@@ -28,10 +28,10 @@ namespace Luculentus
   {
     public:
 
-      /// Location of the camera in the scene
+      /// Location of the camera in the scene.
       Vector3 position;
 
-      /// Horizontal field of view in radians
+      /// Horizontal field of view in radians.
       float fieldOfView;
 
       /// The distance along the optical axis
@@ -47,7 +47,7 @@ namespace Luculentus
       /// aberration, larger values result in more chromatic aberration.
       float chromaticAberration;
 
-      /// The direction in which the camera is looking
+      /// The direction in which the camera is looking.
       Quaternion orientation;
 
       /// Returns a camera ray through the screen at the specified

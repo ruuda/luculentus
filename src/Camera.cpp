@@ -41,13 +41,13 @@ Ray Camera::GetScreenRay(const float x, const float y,
   direction.z *= chromaticAberrationFactor;
   
   // Now find the intersection with the focal plane (which is trivial as
-  // long as the ray is not transformed yet)
+  // long as the ray is not transformed yet).
   direction.Normalise();
   Vector3 focusPoint = direction * (focalDistance / direction.y);
 
   // Then take a new point on the camera 'lens' (this is of course not
   // accurate, but then again, the pinhole camera does not have depth of
-  // field at all, so it is a hack anyway)
+  // field at all, so it is a hack anyway).
   Vector3 lensPoint =
   {
     std::cos(dofAngle) * dofRadius,
@@ -56,7 +56,7 @@ Ray Camera::GetScreenRay(const float x, const float y,
   };
   
   // Then construct the new ray,
-  // from the lens point through the focus point
+  // from the lens point through the focus point.
   direction = focusPoint - lensPoint;
   Ray r;
   r.direction = Rotate(direction, orientation);
@@ -69,16 +69,15 @@ Ray Camera::GetScreenRay(const float x, const float y,
 Ray Camera::GetRay(const float x, const float y, const float wavelength,
                    MonteCarloUnit& monteCarloUnit) const
 {
-  // Pick depth of field coordinates randomly
+  // Pick depth of field coordinates randomly.
   const float dofAngle = monteCarloUnit.GetLongitude();
   const float dofRadius = monteCarloUnit.GetUnit() / depthOfField;
 
   // Calculate a zoom factor based on the wavelenth
-  // to simulate chromatic aberration of the lens
+  // to simulate chromatic aberration of the lens.
   const float d = (wavelength - 580.0f) / 200.0f;
   const float chromaticZoom = 1.0f + d * chromaticAberration;
 
-  // First, retrieve a ray through the screen
   Ray r = GetScreenRay(x, y, chromaticZoom, dofAngle, dofRadius);
   r.wavelength = wavelength;
 
