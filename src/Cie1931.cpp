@@ -26,12 +26,12 @@ Vector3 Cie1931::GetTristimulus(float wavelength)
   short index     = static_cast<short>(std::floor(indexf));
   float remainder = indexf - index;
 
-  if (index < -1 || index > 80) // Wavelength is not in visible spectrum
+  if (index < -1 || index > 80) // Wavelength is not in visible spectrum.
   {
     return ZeroVector3();
   }
 
-  if (index == -1) // No interpolation possible
+  if (index == -1) // No interpolation possible.
   {
     float cieX = x[0] * (remainder);
     float cieY = y[0] * (remainder);
@@ -39,7 +39,7 @@ Vector3 Cie1931::GetTristimulus(float wavelength)
     return MakeVector3(cieX, cieY, cieZ);
   }
 
-  if (index == 80) // No interpolation possible
+  if (index == 80) // No interpolation possible.
   {
     float cieX = x[80] * (1.0f - remainder);
     float cieY = y[80] * (1.0f - remainder);
@@ -47,7 +47,7 @@ Vector3 Cie1931::GetTristimulus(float wavelength)
     return MakeVector3(cieX, cieY, cieZ);
   }
 
-  // Interpolate between two measurements
+  // Interpolate between two measurements.
   float cieX = x[index] * (1.0f - remainder) + x[index + 1] * remainder;
   float cieY = y[index] * (1.0f - remainder) + y[index + 1] * remainder;
   float cieZ = z[index] * (1.0f - remainder) + z[index + 1] * remainder;
