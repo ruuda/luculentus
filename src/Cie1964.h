@@ -20,21 +20,21 @@
 
 namespace Luculentus
 {
-  /// Helper class for the CIE 1964 colour space
+  /// Helper class for the CIE 1964 colour space.
   class Cie1964
   {
     private:
 
       /// CIE XYZ X tristimulus value, at 5nm intervals,
-      /// starting at 380nm
+      /// starting at 380nm.
       static const float x[81];
 
       /// CIE XYZ X tristimulus value, at 5nm intervals,
-      /// starting at 380nm
+      /// starting at 380nm.
       static const float y[81];
 
       /// CIE XYZ X tristimulus value, at 5nm intervals,
-      /// starting at 380nm
+      /// starting at 380nm.
       static const float z[81];
 
     public:
