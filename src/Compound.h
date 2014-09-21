@@ -26,14 +26,14 @@ namespace Luculentus
   {
     public:
 
-      /// The first of the two surfaces
+      /// The first of the two surfaces.
       T1 surface1;
 
-      /// The second of the two surfaces
+      /// The second of the two surfaces.
       T2 surface2;
 
       /// Creates a new object,
-      /// which is the intersection of the two specified objects
+      /// which is the intersection of the two specified objects.
       IntersectionCompound(const T1& s1, const T2& s2)
         : surface1(s1)
         , surface2(s2)
@@ -51,14 +51,14 @@ namespace Luculentus
       virtual bool Intersect(const Ray ray,
                              Intersection& intersection) const
       {
-        // Intersect both surfaces
+        // Intersect both surfaces.
         Intersection i1, i2;
 
         bool surface1Intersected = surface1.Intersect(ray, i1);
         bool surface2Intersected = surface2.Intersect(ray, i2);
 
         // If not intersecting any of the two,
-        // it is not intersecting the compound object either
+        // it is not intersecting the compound object either.
         if (!surface1Intersected && !surface2Intersected) return false;
 
         // Invalidate intersections that do not lie inside
@@ -69,17 +69,17 @@ namespace Luculentus
           surface2Intersected = false;
 
         // Again, if both intersections are now invalid,
-        // there is no intersection
+        // there is no intersection.
         if (!surface1Intersected && !surface2Intersected) return false;
 
-        // If both intersections are valid, pick the closest one
+        // If both intersections are valid, pick the closest one.
         if (surface1Intersected && surface2Intersected)
         {
           if (i1.distance < i2.distance)surface2Intersected = false;
           else surface1Intersected = false;
         }
 
-        // Now pick the best intersection
+        // Now pick the best intersection.
         if (surface1Intersected) intersection = i1;
         else intersection = i2;
         return true;
@@ -87,7 +87,7 @@ namespace Luculentus
 
       virtual bool LiesInside(const Vector3 x) const
       {
-        // The point must lie in both volumes to lie in its intersection
+        // The point must lie in both volumes to lie in its intersection.
         return surface1.LiesInside(x) && surface2.LiesInside(x);
       }
   };
