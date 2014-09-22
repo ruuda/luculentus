@@ -39,7 +39,7 @@ const int Raytracer::numberOfThreads = 1;
 #endif
 
 Raytracer::Raytracer(UserInterface& ui)
-	: scene(BuildScene())
+  : scene(BuildScene())
   , taskScheduler(numberOfThreads, imageWidth, imageHeight, scene)
   , userInterface(ui)
 {
