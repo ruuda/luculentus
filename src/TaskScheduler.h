@@ -16,7 +16,7 @@
 
 #pragma once
 
-#include <ctime>
+#include <chrono>
 #include <memory>
 #include <mutex>
 #include <queue>
@@ -63,10 +63,10 @@ namespace Luculentus
       bool imageChanged;
 
       /// The last time the image was tonemapped (and displayed)
-      std::time_t lastTonemapTime;
+      std::chrono::steady_clock::time_point lastTonemapTime;
 
       /// The time at which rendering started. Used to measure performance.
-      std::time_t startTime;
+      std::chrono::steady_clock::time_point startTime;
 
       /// The number of completed trace batches. Used to measure performance.
       unsigned int completedTraces;
@@ -76,7 +76,7 @@ namespace Luculentus
       std::mutex mutex;
 
       /// The interval at which tonemapping happens, in seconds
-      const static int tonemappingInterval = 10;
+      const static std::chrono::steady_clock::duration tonemappingInterval;
 
     public:
 

@@ -16,10 +16,13 @@
 
 #include "TaskScheduler.h"
 
-#include <ctime>
 #include <iostream>
 
 using namespace Luculentus;
+using std::chrono::steady_clock;
+using std::chrono::duration_cast;
+
+const steady_clock::duration TaskScheduler::tonemappingInterval = std::chrono::seconds(10);
 
 TaskScheduler::TaskScheduler(const int numberOfThreads, const int width,
                              const int height, const Scene& scene)
@@ -35,7 +38,7 @@ TaskScheduler::TaskScheduler(const int numberOfThreads, const int width,
   plotUnits.reserve(numberOfPlotUnits);
 
   // Build all the trace units, with a different random seed for all units
-  unsigned long randomSeed = static_cast<unsigned long>(std::time(nullptr));
+  unsigned long randomSeed = std::random_device()();
   for (size_t i = 0; i < numberOfTraceUnits; i++)
   {
     traceUnits.emplace_back(scene, randomSeed, width, height);
@@ -64,10 +67,10 @@ TaskScheduler::TaskScheduler(const int numberOfThreads, const int width,
   // The image has not changed (there is none)
   imageChanged = false;
   // Tonemap as soon as possible
-  lastTonemapTime = std::time(nullptr) - tonemappingInterval;
+  lastTonemapTime = steady_clock::now() - tonemappingInterval;
 
   completedTraces = 0;
-  startTime = std::time(nullptr);
+  startTime = steady_clock::now();
 }
 
 Task TaskScheduler::GetNewTask(const Task completedTask)
@@ -81,7 +84,7 @@ Task TaskScheduler::GetNewTask(const Task completedTask)
 
   // If the last tonemapping time was more than x seconds ago,
   // an update should be done
-  std::time_t now = std::time(nullptr);
+  auto now = steady_clock::now();
   if (now - lastTonemapTime > tonemappingInterval)
   {
     // If the image has changed since it was last tonemapped,
@@ -281,12 +284,12 @@ void TaskScheduler::CompleteTonemapTask()
   // The image is tonemapped now, so until a new gathering happens,
   // it will not change
   imageChanged = false;
-  lastTonemapTime = std::time(nullptr);
+  lastTonemapTime = steady_clock::now();
 
   // Measure how many rays per seconds the renderer can handle.
-  const auto renderTime = std::time(nullptr) - startTime;
-  const double batchesPerSecond =
-    static_cast<double>(completedTraces) / renderTime;
+  const auto renderTime = steady_clock::now() - startTime;
+  const auto ms = duration_cast<std::chrono::milliseconds>(renderTime);
+  const auto batchesPerSecond = completedTraces * 1000.0 / ms.count();
   std::cout << "performance: " << batchesPerSecond
             << " batches/sec" << std::endl;
 }
