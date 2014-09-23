@@ -17,7 +17,6 @@
 #include "TonemapUnit.h"
 
 #include <cmath>
-#include <algorithm>
 #include <numeric>
 #include "GatherUnit.h"
 #include "SRgb.h"
