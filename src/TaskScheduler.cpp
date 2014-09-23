@@ -17,6 +17,7 @@
 #include "TaskScheduler.h"
 
 #include <iostream>
+#include <numeric>
 
 using namespace Luculentus;
 using std::chrono::steady_clock;
@@ -66,11 +67,10 @@ TaskScheduler::TaskScheduler(const int numberOfThreads, const int width,
 
   // The image has not changed (there is none)
   imageChanged = false;
-  // Tonemap as soon as possible
-  lastTonemapTime = steady_clock::now() - tonemappingInterval;
 
+  // Tonemap as soon as possible
+  lastTonemapTime = steady_clock::now();
   completedTraces = 0;
-  startTime = steady_clock::now();
 }
 
 Task TaskScheduler::GetNewTask(const Task completedTask)
@@ -271,6 +271,8 @@ void TaskScheduler::CompleteGatherTask(Task completedTask)
   imageChanged = true;
 }
 
+#include <algorithm>
+
 void TaskScheduler::CompleteTonemapTask()
 {
   std::cout << "done tonemapping" << std::endl;
@@ -284,12 +286,27 @@ void TaskScheduler::CompleteTonemapTask()
   // The image is tonemapped now, so until a new gathering happens,
   // it will not change
   imageChanged = false;
-  lastTonemapTime = steady_clock::now();
 
   // Measure how many rays per seconds the renderer can handle.
-  const auto renderTime = steady_clock::now() - startTime;
+  const auto now = steady_clock::now();
+  const auto renderTime = now - lastTonemapTime;
   const auto ms = duration_cast<std::chrono::milliseconds>(renderTime);
-  const auto batchesPerSecond = completedTraces * 1000.0 / ms.count();
-  std::cout << "performance: " << batchesPerSecond
+  const auto batchesPerSecond = completedTraces * 1000.0f / ms.count();
+  lastTonemapTime = now;
+  completedTraces = 0;
+
+  // Store the latest 512 measurements (should be about 1.5 hours).
+  performance.push_back(batchesPerSecond);
+  if (performance.size() > 512) performance.pop_front();
+  float n = static_cast<float>(performance.size());
+
+  float mean = std::accumulate(performance.begin(), performance.end(), 0.0f) / n;
+
+  float sqrMean = std::accumulate(performance.begin(), performance.end(), 0.0f,
+                  [](float a, float perf) { return a + perf * perf; }) / n;
+
+  float variance = sqrMean - mean * mean;
+
+  std::cout << "performance: " << mean << " +- " << std::sqrt(variance)
             << " batches/sec" << std::endl;
 }

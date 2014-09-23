@@ -65,11 +65,12 @@ namespace Luculentus
       /// The last time the image was tonemapped (and displayed)
       std::chrono::steady_clock::time_point lastTonemapTime;
 
-      /// The time at which rendering started. Used to measure performance.
-      std::chrono::steady_clock::time_point startTime;
-
-      /// The number of completed trace batches. Used to measure performance.
+      /// The number of completed trace batches since the last tonemap.
+      /// Used to measure performance.
       unsigned int completedTraces;
+
+      /// Previous measurements of batches/second, used to determine variance.
+      std::deque<float> performance;
 
       /// A mutex that ensures only one thread can
       /// access the task scheduler at a given instant.
