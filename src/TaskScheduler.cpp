@@ -23,7 +23,7 @@ using namespace Luculentus;
 using std::chrono::steady_clock;
 using std::chrono::duration_cast;
 
-const steady_clock::duration TaskScheduler::tonemappingInterval = std::chrono::seconds(10);
+const steady_clock::duration TaskScheduler::tonemappingInterval = std::chrono::seconds(30);
 
 TaskScheduler::TaskScheduler(const int numberOfThreads, const int width,
                              const int height, const Scene& scene)
