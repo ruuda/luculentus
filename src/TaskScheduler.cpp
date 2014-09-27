@@ -295,7 +295,7 @@ void TaskScheduler::CompleteTonemapTask()
   lastTonemapTime = now;
   completedTraces = 0;
 
-  // Store the latest 512 measurements (should be about 1.5 hours).
+  // Store the latest 512 measurements (should be about 4.25 hours).
   performance.push_back(batchesPerSecond);
   if (performance.size() > 512) performance.pop_front();
   float n = static_cast<float>(performance.size());
