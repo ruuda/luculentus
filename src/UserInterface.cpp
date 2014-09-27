@@ -40,12 +40,6 @@ UserInterface::UserInterface(int argc, char** argv) :
   dispatcher.connect([this]() { this->DisplayImage(); });
 }
 
-UserInterface::~UserInterface()
-{
-  // Contains by-value members and refpointers only,
-  // no need for manual cleanup.
-}
-
 void UserInterface::DisplayImage(int width, int height, std::uint8_t* data)
 {
   resultImageBuffer = Gdk::Pixbuf::create_from_data(

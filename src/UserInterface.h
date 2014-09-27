@@ -1,5 +1,5 @@
 // Luculentus -- Proof of concept spectral path tracer
-// Copyright (C) 2012  Ruud van Asseldonk
+// Copyright (C) 2012, 2014  Ruud van Asseldonk
 // 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -27,9 +27,6 @@ namespace Luculentus
       /// Builds the user interface, requires the command-line
       /// parameters to be passed along.
       UserInterface(int argc, char** argv);
-
-      /// Destroys the user interface.
-      ~UserInterface();
 
       /// Executes UI logic, and runs the application
       void Run();
