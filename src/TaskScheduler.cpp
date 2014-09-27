@@ -287,7 +287,7 @@ void TaskScheduler::CompleteTonemapTask()
   // it will not change
   imageChanged = false;
 
-  // Measure how many rays per seconds the renderer can handle.
+  // Measure how many rays per second the renderer can handle.
   const auto now = steady_clock::now();
   const auto renderTime = now - lastTonemapTime;
   const auto ms = duration_cast<std::chrono::milliseconds>(renderTime);
