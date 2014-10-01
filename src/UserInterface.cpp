@@ -40,10 +40,11 @@ UserInterface::UserInterface(int argc, char** argv) :
   dispatcher.connect([this]() { this->DisplayImage(); });
 }
 
-void UserInterface::DisplayImage(int width, int height, std::uint8_t* data)
+void UserInterface::DisplayImage(int width, int height,
+                                 const std::vector<std::uint8_t>& data)
 {
   resultImageBuffer = Gdk::Pixbuf::create_from_data(
-    data,
+    &data[0],
     Gdk::COLORSPACE_RGB, // Use RGB colour
     false,               // No alpha channel
     8,                   // Eight bits per pixel (per channel)

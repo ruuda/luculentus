@@ -29,7 +29,7 @@ int main(int argc, char** argv)
 
   // Display a black image to start with.
   std::vector<std::uint8_t> blackBuffer(1280 * 720 * 3, 0);
-  ui.DisplayImage(1280, 720, &blackBuffer[0]);
+  ui.DisplayImage(1280, 720, blackBuffer);
 
   // Begin rendering with all threads
   raytracer.StartRendering();

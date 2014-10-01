@@ -17,6 +17,7 @@
 #pragma once
 #include <gtkmm.h>
 #include <cstdint>
+#include <vector>
 
 namespace Luculentus
 {
@@ -32,7 +33,8 @@ namespace Luculentus
       void Run();
 
       /// Displays pixel buffer in the user interface
-      void DisplayImage(int width, int height, std::uint8_t* data);
+      void DisplayImage(int width, int height,
+                        const std::vector<std::uint8_t>& data);
 
     private:
 
