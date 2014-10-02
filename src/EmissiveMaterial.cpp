@@ -24,7 +24,7 @@ using namespace Luculentus;
 float boltzmann(const float wavelength, const float temperature)
 {
   // Use double precision here, the numers are quite large/small,
-  // might cause trouble
+  // might cause trouble.
   const double h = plancksConstant;
   const double k = boltzmannsConstant;
   const double c = speedOfLight; // Speed of light in vacuum
@@ -33,7 +33,7 @@ float boltzmann(const float wavelength, const float temperature)
   // while m is the standard unit.
   const double f = c / (wavelength * 1.0e-9);
 
-  // The Boltzmann distribution
+  // The Boltzmann distribution.
   return static_cast<float>((2.0 * h * f * f * f)
     / (c * c * (std::exp(h * f / (k * temperature)) - 1.0)));
 }
@@ -51,6 +51,6 @@ BlackBodyMaterial::BlackBodyMaterial(const float kelvins,
 float BlackBodyMaterial::GetIntensity(const float wavelength) const
 {
   // The intensity for a specified wavelength,
-  // is the normalised Boltzmann distribution
+  // is the normalised Boltzmann distribution.
   return boltzmann(wavelength, temperature) * normalisationFactor;
 }

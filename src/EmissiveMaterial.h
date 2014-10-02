@@ -23,7 +23,7 @@ namespace Luculentus
     public:
       
       /// Returns the light intensity at the specified wavelength (for
-      /// emissive materials)
+      /// emissive materials).
       virtual float GetIntensity(const float wavelength) const = 0;
   };
 
