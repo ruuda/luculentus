@@ -23,7 +23,7 @@ namespace Luculentus
 {
   class PlotUnit;
 
-  /// Handles combining the results of multiple PlotUnits
+  /// Handles combining the results of multiple PlotUnits.
   class GatherUnit
   {
     public:

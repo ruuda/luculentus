@@ -31,12 +31,12 @@ GatherUnit::GatherUnit(const int width, const int height)
 
 void GatherUnit::Accumulate(PlotUnit& plotUnit)
 {
-  // Loop through all pixels, and add the values
+  // Loop through all pixels, and add the values.
   for (int i = 0; i < imageWidth * imageHeight; i++)
   {
     tristimulusBuffer[i] += plotUnit.tristimulusBuffer[i];
   }
 
-  // Then clear the buffer of the plot unit, so it can be recycled
+  // Then clear the buffer of the plot unit, so it can be recycled.
   plotUnit.Clear();
 }
