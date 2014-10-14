@@ -27,7 +27,7 @@ Ray ClayMaterial::GetNewRay(const Ray incomingRay,
                             MonteCarloUnit& monteCarloUnit) const
 {
   // Generate a ray in a random direction,
-  // originating from the intersection
+  // originating from the intersection.
   Ray newRay;
   newRay.direction = monteCarloUnit.GetCosineDistributedHemisphereVector();
 
@@ -89,12 +89,12 @@ Ray PerfectMirrorMaterial::GetNewRay(const Ray incomingRay,
                                      const Intersection intersection,
                                      MonteCarloUnit&) const
 {
-  // Generate a ray in the reflected direction
+  // Generate a ray in the reflected direction.
   Ray newRay;
   newRay.direction = Reflect(incomingRay.direction, intersection.normal);
 
   // There is only one way in which the ray can be reflected,
-  // so the probability of this happening is 1
+  // so the probability of this happening is 1.
   newRay.probability = 1.0f;
 
   newRay.wavelength = incomingRay.wavelength;
@@ -114,10 +114,10 @@ Ray GlossyMirrorMaterial::GetNewRay(const Ray incomingRay,
 {
   Ray newRay;
 
-  // Generate a ray in the reflected direction
+  // Generate a ray in the reflected direction.
   Vector3 reflection = Reflect(incomingRay.direction, intersection.normal);
 
-  // And a diffuse ray to blend with
+  // And a diffuse ray to blend with.
   Vector3 diffuse = monteCarloUnit.GetCosineDistributedHemisphereVector();
 
   // However, the diffuse ray is now facing in the wrong direction,
@@ -127,14 +127,14 @@ Ray GlossyMirrorMaterial::GetNewRay(const Ray incomingRay,
     intersection.normal : -intersection.normal);
 
   // Now the new ray direction is a mixture of the diffuse
-  // and reflected ray
+  // and reflected ray.
   newRay.direction = (diffuse * glossiness)
                    + (reflection * (1.0f - glossiness));
   newRay.direction.Normalise();
 
   // There is only one way in which the ray can be reflected, and the
   // diffuse reflection is weighted already, so the probability of this
-  // happening is 1
+  // happening is 1.
   newRay.probability = 1.0f;
 
   newRay.wavelength = incomingRay.wavelength;
@@ -156,10 +156,10 @@ Ray BrushedMetalMaterial::GetNewRay(const Ray incomingRay,
 {
   Ray newRay;
 
-  // Generate a ray in the reflected direction
+  // Generate a ray in the reflected direction.
   Vector3 reflection = Reflect(incomingRay.direction, intersection.normal);
 
-  // And a diffuse ray to blend with
+  // And a diffuse ray to blend with.
   Vector3 diffuse = monteCarloUnit.GetCosineDistributedHemisphereVector();
 
   // However, the diffuse ray is now facing in the wrong direction,
@@ -169,19 +169,19 @@ Ray BrushedMetalMaterial::GetNewRay(const Ray incomingRay,
     intersection.normal : -intersection.normal);
 
   // A part of the binormal component must be removed, proportionally to
-  // the anisotropy
+  // the anisotropy.
   const float tangentialComponent = Dot(diffuse, intersection.tangent);
   diffuse = diffuse - (intersection.tangent * tangentialComponent) * anisotropy;
   diffuse.Normalise();
 
-  // The new ray direction is a mixture of the diffuse and reflected ray
+  // The new ray direction is a mixture of the diffuse and reflected ray.
   newRay.direction = (diffuse * glossiness)
                    + (reflection * (1.0f - glossiness));
   newRay.direction.Normalise();
 
   // There is only one way in which the ray can be reflected, and the
   // diffuse reflection is weighted already, so the probability of this
-  // happening is 1
+  // happening is 1.
   newRay.probability = 1.0f;
 
   newRay.wavelength = incomingRay.wavelength;
@@ -196,19 +196,19 @@ Ray RefractiveMaterial::GetNewRay(const Ray incomingRay,
                                   const Intersection intersection,
                                   MonteCarloUnit&) const
 {
-  // Generate a ray in the refracted direction
+  // Generate a ray in the refracted direction.
   Ray newRay;
 
   float cosI = -Dot(incomingRay.direction, intersection.normal);
 
   // Retrieve the index of refraction to be used
-  // (which can be wavelength-dependent)
+  // (which can be wavelength-dependent).
   float indexOfRefraction = GetIndexOfRefraction(incomingRay.wavelength);
   Vector3 normal = intersection.normal;
 
   // The IOR in this formula is n1 / n2, where n1 is air (1.0) when the
   // ray enters, otherwise, when the ray leaves the material, the IOR is
-  // correct as is
+  // correct as is.
   if (cosI > 0.0f)
   {
     indexOfRefraction = 1.0f / indexOfRefraction;
@@ -217,7 +217,7 @@ Ray RefractiveMaterial::GetNewRay(const Ray incomingRay,
   {
     // The formula below assumes the normal to be at the same side as
     // the incident ray, if this is not the case, simply reverse the
-    // normal
+    // normal.
     normal = -intersection.normal;
     cosI = -cosI;
   }
@@ -226,21 +226,21 @@ Ray RefractiveMaterial::GetNewRay(const Ray incomingRay,
                               * (1.0f - cosI * cosI);
 
   // When refraction is impossible,
-  // total internal reflection must have occurred
+  // total internal reflection must have occurred.
   if (sinThetaSquared > 1.0f)
   {
     newRay.direction = Reflect(incomingRay.direction, intersection.normal);
   }
   else
   {
-    // Otherwise, compute the refracted ray
+    // Otherwise, compute the refracted ray.
     const float cosT = std::sqrt(1.0f - sinThetaSquared);
     newRay.direction = indexOfRefraction * incomingRay.direction
                      + (indexOfRefraction * cosI - cosT) * normal;
   }
 
   // There is only one way in which the ray can be refracted,
-  // so the probability of this happening is 1
+  // so the probability of this happening is 1.
   newRay.probability = 1.0f; 
 
   newRay.wavelength = incomingRay.wavelength;
@@ -255,7 +255,7 @@ float Bk7GlassMaterial::GetIndexOfRefraction(const float wavelength) const
 {
   // See http://refractiveindex.info/?group=GLASSES&material=BK7
 
-  // Square and convert nanometer to micrometer
+  // Square and convert nanometer to micrometer.
   const double w2 = wavelength * wavelength * 1.0e-6;
 
   return (float)std::sqrt(
@@ -272,7 +272,7 @@ float Sf10GlassMaterial::GetIndexOfRefraction(const float wavelength) const
 
   // See http://refractiveindex.info/?group=GLASSES&material=SF11
 
-  // Square and convert nanometer to micrometer
+  // Square and convert nanometer to micrometer.
   const double w2 = wavelength * wavelength * 1.0e-6;
 
   return (float)std::sqrt(
@@ -293,21 +293,21 @@ Ray SoapBubbleMaterial::GetNewRay(const Ray incomingRay,
   const float cosAlpha = Dot(incomingRay.direction, intersection.normal);
 
   // Reflect or pass through,
-  // based on the angle between the ray and the normal
+  // based on the angle between the ray and the normal.
   if (monteCarloUnit.GetUnit() - 0.3f > std::abs(cosAlpha))
   {
     // When the angle between the normal and the ray is almost
-    // 90 degrees, reflect
+    // 90 degrees, reflect.
     newRay.direction = Reflect(incomingRay.direction, intersection.normal);
   }
   else
   {
     // Otherwise, simply pass it through, because the bubble is filled
-    // with air, so it does not refract anything
+    // with air, so it does not refract anything.
     newRay.direction = incomingRay.direction;
   }
 
-  // Take a phase shift from 0 - 2pi based on the wavelength
+  // Take a phase shift from 0 - 2pi based on the wavelength.
   const float phaseShift = (incomingRay.wavelength - 380.0f)
                          / 200.0f * (float)pi;
 
@@ -336,10 +336,10 @@ Ray IridescentMaterial::GetNewRay(const Ray incomingRay,
 {
   Ray newRay;
 
-   // Generate a ray in the reflected direction
+   // Generate a ray in the reflected direction.
   Vector3 reflection = Reflect(incomingRay.direction, intersection.normal);
 
-  // And a diffuse ray to blend with
+  // And a diffuse ray to blend with.
   Vector3 diffuse = monteCarloUnit.GetCosineDistributedHemisphereVector();
 
   // However, the diffuse ray is now facing in the wrong direction,
@@ -349,13 +349,13 @@ Ray IridescentMaterial::GetNewRay(const Ray incomingRay,
     intersection.normal : -intersection.normal);
 
   // Now the new ray direction is a random mixture of the diffuse and
-  // reflected ray
+  // reflected ray.
   const float glossiness = monteCarloUnit.GetUnit();
   newRay.direction = (diffuse * glossiness)
                    + (reflection * (1.0f - glossiness));
   newRay.direction.Normalise();
 
-  // Take a phase shift from 0 - 2pi based on the wavelength
+  // Take a phase shift from 0 - 2pi based on the wavelength.
   const float phaseShift = (incomingRay.wavelength - 380.0f)
                          / 200.0f * (float)pi;
 

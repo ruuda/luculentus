@@ -1,5 +1,5 @@
 // Luculentus -- Proof of concept spectral path tracer
-// Copyright (C) 2012  Ruud van Asseldonk
+// Copyright (C) 2012, 2014  Ruud van Asseldonk
 // 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -27,14 +27,14 @@ namespace Luculentus
   {
     public:
 
-      /// Returns the ray that continues the light path, backwards
-      /// from the camera to the light source.
+      /// Returns the ray that continues the light path,
+      /// backwards from the camera to the light source.
       virtual Ray GetNewRay(const Ray incomingRay,
                             const Intersection intersection,
                             MonteCarloUnit& monteCarloUnit) const = 0;
   };
 
-  /// A perfectly diffuse, perfectly reflecting all wavelengths, material
+  /// A perfectly diffuse, perfectly reflecting all wavelengths, material.
   class ClayMaterial : public Material
   {
     public:
@@ -44,15 +44,16 @@ namespace Luculentus
                             MonteCarloUnit& monteCarloUnit) const;
   };
 
-  /// Same as clay, but not perfectly white; it absorbes energy
+  /// Same as clay, but not perfectly white; it absorbes energy.
   class DiffuseGreyMaterial : public ClayMaterial
   {
     public:
 
-      /// How much the material reflects; 0.0 is black, 1.0 is white (clay material)
+      /// How much the material reflects; 0.0 is black,
+      /// 1.0 is white (clay material).
       const float reflectance;
 
-      /// Constructs a new diffuse gray material with the specified reflectance
+      /// Constructs a new diffuse gray material with the specified reflectance.
       DiffuseGreyMaterial(const float refl);
 
       virtual Ray GetNewRay(const Ray incomingRay,
@@ -60,15 +61,16 @@ namespace Luculentus
                             MonteCarloUnit& monteCarloUnit) const;
   };
 
-  /// Reflects light of a certain wavelength better than others, with a normal distribution
+  /// Reflects light of a certain wavelength better than others,
+  /// with a normal distribution.
   class DiffuseColouredMaterial : public DiffuseGreyMaterial
   {
     public: 
 
-      /// The wavelength that is best reflected
+      /// The wavelength that is best reflected.
       const float wavelength;
 
-      /// The standard deviation for the distribution
+      /// The standard deviation for the distribution.
       const float deviation;
 
       DiffuseColouredMaterial(const float refl, const float wavel, const float dev);
@@ -78,7 +80,7 @@ namespace Luculentus
                             MonteCarloUnit& monteCarloUnit) const;
   };
 
-  /// Reflects all light perfectly along the same (but opposite) angle
+  /// Reflects all light perfectly along the same (but opposite) angle.
   class PerfectMirrorMaterial : public Material
   {
     public:
@@ -88,7 +90,7 @@ namespace Luculentus
                       MonteCarloUnit& monteCarloUnit) const;
   };
 
-  /// Blends between perfect reflection and diffuse
+  /// Blends between perfect reflection and diffuse.
   class GlossyMirrorMaterial : public Material
   {
     public:
@@ -159,7 +161,7 @@ namespace Luculentus
                             MonteCarloUnit& monteCarloUnit) const;
   };
 
-  /// A completely fictional but very interesting
+  /// A completely fictional but very interesting material.
   class IridescentMaterial : public Material
   {
     public:
