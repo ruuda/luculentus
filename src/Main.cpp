@@ -31,7 +31,7 @@ int main(int argc, char** argv)
   std::vector<std::uint8_t> blackBuffer(1280 * 720 * 3, 0);
   ui.DisplayImage(1280, 720, blackBuffer);
 
-  // Begin rendering with all threads
+  // Begin rendering with all threads.
   raytracer.StartRendering();
 
   // Run the UI event loop, it returns when the window is closed.
