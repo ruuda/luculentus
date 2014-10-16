@@ -1,5 +1,5 @@
 // Luculentus -- Proof of concept spectral path tracer
-// Copyright (C) 2012  Ruud van Asseldonk
+// Copyright (C) 2012, 2014  Ruud van Asseldonk
 // 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -34,13 +34,13 @@ MonteCarloUnit::MonteCarloUnit(const unsigned long randomSeed)
 
 Vector3 MonteCarloUnit::GetCosineDistributedHemisphereVector()
 {
-  // First, generate polar coordinates in a disk
+  // First, generate polar coordinates in a disk.
   float phi = GetLongitude();
   float rq = GetUnit();
   float r = std::sqrt(rq);
 
-  // Calculate the direction based on the polar coordinates
-  // This distribution is cosine-weighted
+  // Calculate the direction based on the polar coordinates.
+  // This distribution is cosine-weighted.
   Vector3 v =
   {
     std::cos(phi) * r,
@@ -53,11 +53,11 @@ Vector3 MonteCarloUnit::GetCosineDistributedHemisphereVector()
 
 Vector3 MonteCarloUnit::GetHemisphereVector()
 {
-  // First, generate polar coordinates in a hemisphere
+  // First, generate polar coordinates in a hemisphere.
   float phi   = GetLongitude();
   float theta = GetLatitude();
 
-  // Calculate the direction based on the polar coordinates
+  // Calculate the direction based on the polar coordinates.
   Vector3 v =
   {
     std::cos(phi) * std::sin(theta),

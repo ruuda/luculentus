@@ -1,5 +1,5 @@
 // Luculentus -- Proof of concept spectral path tracer
-// Copyright (C) 2012  Ruud van Asseldonk
+// Copyright (C) 2012, 2014  Ruud van Asseldonk
 // 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -21,49 +21,49 @@
 
 namespace Luculentus
 {
-  /// An entropy provider that can be kept per-thread
+  /// An entropy provider that can be kept per-thread.
   class MonteCarloUnit
   {
     public:
 
-      /// Random generator
+      /// Random generator.
       std::mt19937 randomEngine;
 
-      /// Uniform distribution in the range -1 .. 1
+      /// Uniform distribution in the range -1 .. 1.
       std::uniform_real_distribution<float> biUnitDistribution;
 
-      /// Uniform distribution in the range 0 .. 1
+      /// Uniform distribution in the range 0 .. 1.
       std::uniform_real_distribution<float> unitDistribution;
 
-      /// Uniform distribution in the range 0 .. 2pi
+      /// Uniform distribution in the range 0 .. 2pi.
       std::uniform_real_distribution<float> longitudeDistribution;
 
-      /// Uniform distribution in the range -pi/2 .. pi/2
+      /// Uniform distribution in the range -pi/2 .. pi/2.
       std::uniform_real_distribution<float> latitudeDistribution;
 
-      /// Uniform distribution in the range 380 .. 780
+      /// Uniform distribution in the range 380 .. 780.
       std::uniform_real_distribution<float> wavelengthDistribution;
 
-      /// Initializes a new entropy provider with the specified seed
+      /// Initializes a new entropy provider with the specified seed.
       MonteCarloUnit(const long unsigned int seed);
 
-      /// Returns a random real in the range -1 .. 1
+      /// Returns a random real in the range -1 .. 1.
       inline float GetBiUnit()
       { return biUnitDistribution(randomEngine); }
 
-      /// Returns a random real in the range 0 .. 1
+      /// Returns a random real in the range 0 .. 1.
       inline float GetUnit()
       { return unitDistribution(randomEngine); }
 
-      /// Returns a random real in the range 0 .. 2pi
+      /// Returns a random real in the range 0 .. 2pi.
       inline float GetLongitude()
       { return longitudeDistribution(randomEngine); }
 
-      /// Returns a random real in the range -pi/2 .. pi/2
+      /// Returns a random real in the range -pi/2 .. pi/2.
       inline float GetLatitude()
       { return latitudeDistribution(randomEngine); }
 
-      /// Returns a random real in the range 380 .. 780
+      /// Returns a random real in the range 380 .. 780.
       inline float GetWavelength()
       { return wavelengthDistribution(randomEngine); }
 
