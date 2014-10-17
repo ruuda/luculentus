@@ -23,7 +23,7 @@
 
 namespace Luculentus
 {
-  /// Represents a surface with a material
+  /// Represents a surface with a material.
   struct Object
   {
     std::shared_ptr<Surface> surface;
