@@ -23,7 +23,7 @@ namespace Luculentus
 {
   class TraceUnit;
 
-  /// Handles plotting the results of a TraceUnit
+  /// Handles plotting the results of a TraceUnit.
   class PlotUnit
   {
     public:

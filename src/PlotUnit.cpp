@@ -28,7 +28,7 @@ PlotUnit::PlotUnit(const int width, const int height)
   , aspectRatio(static_cast<float>(width) / static_cast<float>(height))
 {
   // Allocate a buffer to store the tristimulus values,
-  // and fill it with black
+  // and fill it with black.
   tristimulusBuffer.resize(imageWidth * imageHeight, ZeroVector3());
 }
 
@@ -52,11 +52,11 @@ void PlotUnit::Plot(const TraceUnit& traceUnit)
 
 void PlotUnit::PlotPixel(float x, float y, Vector3 cie)
 {
-  // Map the position to some pixels
+  // Map the position to some pixels.
   float px = (x * 0.5f + 0.5f) * (imageWidth - 1);
   float py = (y * aspectRatio * 0.5f + 0.5f) * (imageHeight - 1);
     
-  // Map to discrete pixels
+  // Map to discrete pixels.
   int px1 = std::max(0, std::min(imageWidth - 1,
                           static_cast<int>(std::floor(px))));
   int px2 = std::max(0, std::min(imageWidth - 1, 
@@ -66,7 +66,7 @@ void PlotUnit::PlotPixel(float x, float y, Vector3 cie)
   int py2 = std::max(0, std::min(imageHeight - 1, 
                           static_cast<int>(std::ceil(py))));
 
-  // Calculate pixel coefficients
+  // Calculate pixel coefficients.
   float cx = px - px1;
   float cy = py - py1;
   float c11 = (1.0f - cx) * (1.0f - cy);
@@ -74,7 +74,7 @@ void PlotUnit::PlotPixel(float x, float y, Vector3 cie)
   float c21 = cx * (1.0f - cy);
   float c22 = cx * cy;
 
-  // Plot the four pixels
+  // Plot the four pixels.
   tristimulusBuffer[py1 * imageWidth + px1] += cie * c11;
   tristimulusBuffer[py1 * imageWidth + px2] += cie * c21;
   tristimulusBuffer[py2 * imageWidth + px1] += cie * c12;
