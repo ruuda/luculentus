@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-CFLAGS += -std=c++11 -O4 -Wall -Wextra -march=native
+CFLAGS += -std=c++11 -flto -Ofast -Wall -Wextra -march=native
 
 SOURCES = Camera.cpp Cie1931.cpp Cie1964.cpp Compound.cpp \
   EmissiveMaterial.cpp GatherUnit.cpp Main.cpp Material.cpp \
